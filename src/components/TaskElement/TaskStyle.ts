@@ -1,5 +1,5 @@
-type IDisplay = "flex" | undefined;
-type IFlexJustifyContent = "center" | "space-between";
+
+import {IDisplay, IFlexJustifyContent} from '../../styles/style-const'
 
 interface ITaskStyle {
   display: IDisplay;

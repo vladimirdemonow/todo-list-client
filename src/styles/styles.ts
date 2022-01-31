@@ -1,10 +1,4 @@
-type IDisplay = "flex" | undefined
-type IFlexAlignItems = "center"
-type IFlexJustifyContent = "center" | "space-between"
-type IWidth = 100 | 200 | 300
-type IHeight = 100 | 200 | 300
-type IFlexDirection = "column" | "row"
-
+import {IDisplay, IFlexAlignItems, IFlexJustifyContent, IWidth, IHeight, IFlexDirection} from './style-const'
 
 // MainContainer Interface
 
@@ -38,11 +32,6 @@ interface IButtonsStyle {
     width: IWidth
 }
 
-
-// Filter interface
-interface IFilterStyle {
-    display: IDisplay
-}
 
 // Sort interface
 interface ISortStyle {
@@ -85,7 +74,6 @@ interface IStyles {
     logo ?: ILogoStyle
     input_task ?: IInputTaskStyle
     buttons ?: IButtonsStyle
-    filter ?: IFilterStyle
     sort ?: ISortStyle
     tasks ?: ITasksStyle
     task ?: ITaskStyle
@@ -112,9 +100,6 @@ const styles : IStyles = {
         display: "flex",
         justifyContent: "space-between",
         width: wrapper
-    },
-    filter: {
-        display: "flex"
     },
     sort: {
         display: "flex"

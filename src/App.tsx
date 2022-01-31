@@ -1,24 +1,31 @@
-import "./App.css";
-import TaskElement from "./elements/Task-element";
+import TaskElement from "./components/TaskElement/TaskElement";
+import Filter from "./components/Filter/Filter";
 import styles from "./styles/styles";
 
 interface Task {
   id: String;
+  key: React.Key;
   text: String;
   date: String;
 }
 
-function createTask(id: String, text: String, date: String): Task {
-  return { id, text, date };
+function createTask(
+  id: String,
+  key: React.Key,
+  text: String,
+  date: String
+): Task {
+  return { id, key, text, date };
 }
 
 const taskList: Array<Task> = [];
-const pagesList: Array<Number> = [];
+const pagesList: Array<Number> = [1, 2, 3];
+
+taskList.push(createTask("111", "h112", "Try harder", "31.01.22"));
+taskList.push(createTask("123", "a113", "Try harder", "31.01.22"));
+taskList.push(createTask("143", "s114", "Try harder", "31.01.22"));
 
 function App() {
-  taskList.push(createTask("111", "Try harder", "31.01.22"));
-  taskList.push(createTask("123", "Try harder", "31.01.22"));
-  taskList.push(createTask("143", "Try harder", "31.01.22"));
   return (
     <div className="main_container" style={styles.main_container}>
       <div className="logo" style={styles.logo}>
@@ -26,11 +33,7 @@ function App() {
       </div>
       <input className="input_task" style={styles.input_task}></input>
       <div className="buttons" style={styles.buttons}>
-        <div className="filter" style={styles.filter}>
-          <button className="all">All</button>
-          <button className="done">Done</button>
-          <button className="undone">Undone</button>
-        </div>
+        <Filter></Filter>
         <div className="sort" style={styles.sort}>
           <button>A</button>
           <button>V</button>
@@ -40,6 +43,7 @@ function App() {
         {taskList.map((element) => (
           <TaskElement
             id={element.id}
+            key={element.key.toString()}
             text={element.text}
             date={element.date}
           ></TaskElement>
