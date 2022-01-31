@@ -33,6 +33,10 @@
   width: 205px;
 }
 
+.task {
+  display: flex;
+}
+
 .pages {
   display: flex;
   justify-content: space-between;

@@ -15,6 +15,9 @@ const taskList: Array<Task> = [];
 const pagesList: Array<Number> = [];
 
 function App() {
+  taskList.push(createTask("111", "Try harder", "31.01.22"));
+  taskList.push(createTask("123", "Try harder", "31.01.22"));
+  taskList.push(createTask("143", "Try harder", "31.01.22"));
   return (
     <div className="main_container">
       <div className="logo">ToDo</div>
@@ -32,7 +35,11 @@ function App() {
       </div>
       <div className="tasks">
         {taskList.map((element) => (
-          <div> {element} </div>
+          <TaskElement
+            id={element.id}
+            text={element.text}
+            date={element.date}
+          ></TaskElement>
         ))}
       </div>
       <div className="pages">
