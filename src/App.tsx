@@ -23,6 +23,8 @@ const rows = [createData("555", "Study harder", "28.01.22")];
 
 const labelCheck = { inputProps: { "aria-label": "Checkbox demo" } };
 
+const countPages: Array<Number> = [1, 2, 3, 4, 5];
+
 function App() {
   return (
     <Container component="main" maxWidth="xs">
@@ -40,7 +42,11 @@ function App() {
         <Button variant="contained" color="error">
           Undone
         </Button>
+        <Button variant="outlined">Up</Button>
+        <Button variant="outlined">Down</Button>
       </Stack>
+
+      <Stack spacing={0} direction="row"></Stack>
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 300 }} aria-label="simple table">
@@ -66,6 +72,10 @@ function App() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {countPages.map((element, index) => {
+        return <Button variant="outlined">{index + 1}</Button>;
+      })}
     </Container>
   );
 }
