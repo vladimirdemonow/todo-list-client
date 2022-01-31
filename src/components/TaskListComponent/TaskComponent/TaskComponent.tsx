@@ -1,7 +1,6 @@
 import styles from "./TaskStyle";
 
 interface TaskElementProps {
-  id: String;
   key: String;
   text: String;
   date: String;

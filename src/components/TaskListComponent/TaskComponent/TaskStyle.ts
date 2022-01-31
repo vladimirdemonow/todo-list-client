@@ -1,5 +1,5 @@
 
-import {IDisplay, IFlexJustifyContent} from '../../styles/style-const'
+import {IDisplay, IFlexJustifyContent} from '../../../styles/style-const'
 
 interface ITaskStyle {
   display: IDisplay;

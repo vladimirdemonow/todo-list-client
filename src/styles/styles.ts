@@ -39,7 +39,7 @@ interface ISortStyle {
 }
 
 // Tasks interface
-interface ITasksStyle {
+interface ITaskListStyle {
     display: IDisplay
     flexDirection: IFlexDirection
     width: IWidth
@@ -75,7 +75,7 @@ interface IStyles {
     input_task ?: IInputTaskStyle
     buttons ?: IButtonsStyle
     sort ?: ISortStyle
-    tasks ?: ITasksStyle
+    task_list ?: ITaskListStyle
     task ?: ITaskStyle
     pages ?: IPagesStyle
 }
@@ -104,7 +104,7 @@ const styles : IStyles = {
     sort: {
         display: "flex"
     },
-    tasks: {
+    task_list: {
         display: "flex",
         flexDirection: "column",
         width: wrapper
