@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/vladimirdemonow/todo-list-client/static/css/main.a83ea198.css",
-    "main.js": "/vladimirdemonow/todo-list-client/static/js/main.7343804e.js",
-    "index.html": "/vladimirdemonow/todo-list-client/index.html",
-    "main.a83ea198.css.map": "/vladimirdemonow/todo-list-client/static/css/main.a83ea198.css.map",
-    "main.7343804e.js.map": "/vladimirdemonow/todo-list-client/static/js/main.7343804e.js.map"
+    "main.css": "/todo-list-client/static/css/main.a83ea198.css",
+    "main.js": "/todo-list-client/static/js/main.7343804e.js",
+    "index.html": "/todo-list-client/index.html",
+    "main.a83ea198.css.map": "/todo-list-client/static/css/main.a83ea198.css.map",
+    "main.7343804e.js.map": "/todo-list-client/static/js/main.7343804e.js.map"
   },
   "entrypoints": [
     "static/css/main.a83ea198.css",
