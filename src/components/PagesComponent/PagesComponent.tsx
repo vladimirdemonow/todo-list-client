@@ -1,4 +1,7 @@
 import styles from "./PagesStyle";
+import buttonStyles from "./PagesButtonsStyle.module.scss";
+
+import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
 interface PagesProps {
   count: Number;
@@ -9,9 +12,19 @@ export default (props: PagesProps): JSX.Element => {
 
   return (
     <div className="pages" style={styles.pages}>
+      <AiFillCaretLeft size={42}>
+        <button></button>
+      </AiFillCaretLeft>
       {array.map((element, index) => {
-        return <button key={"key" + index}>{index + 1}</button>;
+        return (
+          <button className={buttonStyles.buttonPages} key={"key" + index}>
+            {index + 1}
+          </button>
+        );
       })}
+      <AiFillCaretRight size={42}>
+        <button></button>
+      </AiFillCaretRight>
     </div>
   );
 };

@@ -1,13 +1,15 @@
-import {IDisplay, IFlexAlignItems, IFlexJustifyContent, IWidth, IHeight, IFlexDirection} from './style-const'
+import {IDisplay, IFlexAlignItems, IFlexJustifyContent, IWidth, IHeight, IFlexDirection, wrapper} from './style-const'
 
 // MainContainer Interface
 
-type IMainContainerWidth = 400 | 500 | 600
+type IMainContainerWidth = 500 | 700 | 1000
+type IMainContainerHeight = 400 | 700 | 1000
 type IMainContainerMarginTop = 0 | 100 | 200
 
 interface IMainContainerStyle {
     display?: IDisplay
     width?: IMainContainerWidth
+    height?: IMainContainerHeight
     marginTop?: IMainContainerMarginTop
     alignItems?: IFlexAlignItems
     justifyContent?: IFlexJustifyContent
@@ -64,18 +66,17 @@ interface IStyles {
     logo ?: ILogoStyle
     input_task ?: IInputTaskStyle
     buttons ?: IButtonsStyle
-    task_list ?: ITaskListStyle
     task ?: ITaskStyle
 }
 
-const wrapper : IWidth = 300
 
 const styles : IStyles = {
     main_container: {
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: "space-between",
         marginTop: 100,
+        height: 400,
         flexDirection: "column"
     },
     logo: {
@@ -87,11 +88,6 @@ const styles : IStyles = {
     buttons: {
         display: "flex",
         justifyContent: "space-between",
-        width: wrapper
-    },
-    task_list: {
-        display: "flex",
-        flexDirection: "column",
         width: wrapper
     },
     task: {

@@ -34,12 +34,13 @@ function App() {
           placeholder="Name"
           name="name"
           id="name"
-          required
         />
       </div>
       <div className="buttons" style={styles.buttons}>
         <FilterComponent></FilterComponent>
-        <SortComponent></SortComponent>
+        <div>
+          <SortComponent></SortComponent>
+        </div>
       </div>
       <TaskListComponent list={taskList}></TaskListComponent>
       <PagesComponent count={taskList.length}></PagesComponent>

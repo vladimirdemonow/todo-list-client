@@ -1,5 +1,5 @@
 
-import {IDisplay, IFlexJustifyContent, IFlexDirection, IWidth} from '../../styles/style-const'
+import {IDisplay, IFlexJustifyContent, IFlexDirection, IWidth, wrapper} from '../../styles/style-const'
 
 interface ITaskListStyle {
   display: IDisplay;
@@ -18,7 +18,7 @@ const styles : ITaskElementStyle = {
         display: "flex",
         justifyContent: "space-between",
         flexDirection: 'column',
-        width: 300
+        width: wrapper
     },
 }
 

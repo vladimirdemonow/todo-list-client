@@ -1,5 +1,5 @@
 
-import {IDisplay, IFlexJustifyContent, IWidth} from '../../styles/style-const'
+import {IDisplay, IFlexJustifyContent, IWidth, wrapper} from '../../styles/style-const'
 
 
 // Pages interface
@@ -20,7 +20,7 @@ const styles : IPagesElementStyle = {
     pages: {
         display: "flex",
         justifyContent: "center",
-        width: 300
+        width: wrapper
     },
 }
 
