@@ -1,5 +1,7 @@
 import TaskListComponent from "./components/TaskListComponent/TaskListComponent";
 import FilterComponent from "./components/FilterComponent/FilterComponent";
+import SortComponent from "./components/SortComponent/SortComponent";
+import PagesComponent from "./components/PagesComponent/PagesComponent";
 import styles from "./styles/styles";
 
 function createTask(text: String, date: String): Task {
@@ -27,17 +29,10 @@ function App() {
       <input className="input_task" style={styles.input_task}></input>
       <div className="buttons" style={styles.buttons}>
         <FilterComponent></FilterComponent>
-        <div className="sort" style={styles.sort}>
-          <button>A</button>
-          <button>V</button>
-        </div>
+        <SortComponent></SortComponent>
       </div>
       <TaskListComponent list={taskList}></TaskListComponent>
-      <div className="pages" style={styles.pages}>
-        {pagesList.map((element) => (
-          <button>{element}</button>
-        ))}
-      </div>
+      <PagesComponent count={taskList.length}></PagesComponent>
     </div>
   );
 }
