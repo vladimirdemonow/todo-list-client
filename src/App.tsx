@@ -3,6 +3,7 @@ import FilterComponent from "./components/FilterComponent/FilterComponent";
 import SortComponent from "./components/SortComponent/SortComponent";
 import PagesComponent from "./components/PagesComponent/PagesComponent";
 import styles from "./styles/styles";
+import inputsStyle from "./styles/style-inputs.module.scss";
 
 function createTask(text: String, date: String): Task {
   return { text, date };
@@ -23,10 +24,19 @@ taskList.push(createTask("Try harder", "31.01.22"));
 function App() {
   return (
     <div className="main_container" style={styles.main_container}>
-      <div className="logo" style={styles.logo}>
+      <h1 className="logo" style={styles.logo}>
         ToDo
+      </h1>
+      <div className={inputsStyle.form__group} style={styles.input_task}>
+        <input
+          type="input"
+          className={inputsStyle.form__field}
+          placeholder="Name"
+          name="name"
+          id="name"
+          required
+        />
       </div>
-      <input className="input_task" style={styles.input_task}></input>
       <div className="buttons" style={styles.buttons}>
         <FilterComponent></FilterComponent>
         <SortComponent></SortComponent>

@@ -7,7 +7,6 @@ interface IFilterStyle {
 
 
 interface IFilterAllStyle {
-
 }
 
 interface IFilterDoneStyle {
