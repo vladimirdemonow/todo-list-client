@@ -1,9 +1,20 @@
 import "./App.css";
+import TaskElement from "./elements/Task-element";
+
+interface Task {
+  id: String;
+  text: String;
+  date: String;
+}
+
+function createTask(id: String, text: String, date: String): Task {
+  return { id, text, date };
+}
+
+const taskList: Array<Task> = [];
+const pagesList: Array<Number> = [];
 
 function App() {
-  const taskList: Array<Number> = [1, 2, 3, 4, 5, 6];
-  const pagesList: Array<Number> = [1, 2, 3, 4, 5, 6];
-
   return (
     <div className="main_container">
       <div className="logo">ToDo</div>

@@ -30,6 +30,7 @@
 .tasks {
   display: flex;
   flex-direction: column;
+  width: 205px;
 }
 
 .pages {
