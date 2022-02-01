@@ -11,7 +11,7 @@ interface TaskElementProps {
 export default (props: TaskElementProps): JSX.Element => {
   return (
     <div className="task" style={styles.task}>
-      <AiOutlineCheckCircle>
+      <AiOutlineCheckCircle size={30}>
         <input
           className="task__check"
           type="checkbox"
@@ -24,7 +24,7 @@ export default (props: TaskElementProps): JSX.Element => {
       <div className="task__date" style={styles.task__date}>
         {props.date}
       </div>
-      <AiFillDelete>
+      <AiFillDelete size={30}>
         <button className="task__delete" style={styles.task__delete}>
           delete
         </button>

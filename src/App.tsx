@@ -15,7 +15,6 @@ interface Task {
 }
 
 const taskList: Array<Task> = [];
-const pagesList: Array<Number> = [1, 2, 3];
 
 taskList.push(createTask("Try harder", "31.01.22"));
 taskList.push(createTask("Try harder", "31.01.22"));
