@@ -1,4 +1,8 @@
-.border {
+.task {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
   font-family: sans-serif;
   border: 1px solid black;
   border-radius: 30px;
@@ -12,4 +16,19 @@
     rgba(#fce2ce, 0.3),
     rgba(#ffc1f3, 0.3)
   );
+}
+
+.task__check {
+}
+
+.task__text {
+  width: 400px;
+}
+
+.task__textarea {
+  width: 400px;
+  resize: none;
+}
+
+.border {
 }

@@ -1,0 +1,8 @@
+@import "../../styles/Const.scss";
+
+.task_list {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: $wrapper;
+}

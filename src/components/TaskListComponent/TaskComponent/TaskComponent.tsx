@@ -1,7 +1,6 @@
-import styles from "./TaskStyle";
+import styles from "./TaskComponent.module.scss";
 import { AiFillDelete } from "react-icons/ai";
 import { AiOutlineCheckCircle } from "react-icons/ai";
-import borderStyle from "./TaskStyleBorder.module.scss";
 
 interface TaskElementProps {
   key: String;
@@ -21,24 +20,14 @@ export default (props: TaskElementProps): JSX.Element => {
   taskTextArray.push(<div>{dividedText}</div>);
 
   return (
-    <div className={borderStyle.border} style={styles.task}>
+    <div className={styles.task}>
       <AiOutlineCheckCircle size={30}>
-        <input
-          className="task__check"
-          type="checkbox"
-          style={styles.task__check}
-        ></input>
+        <input className={styles.task__check} type="checkbox"></input>
       </AiOutlineCheckCircle>
-      <div className="task__text" style={styles.task__text}>
-        {taskTextArray}
-      </div>
-      <div className="task__date" style={styles.task__date}>
-        {props.date}
-      </div>
+      <div className={styles.task__text}>{taskTextArray}</div>
+      <div className={styles.task__date}>{props.date}</div>
       <AiFillDelete size={30}>
-        <button className="task__delete" style={styles.task__delete}>
-          delete
-        </button>
+        <button className={styles.task__delete}>delete</button>
       </AiFillDelete>
     </div>
   );

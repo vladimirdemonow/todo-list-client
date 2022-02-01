@@ -1,3 +1,13 @@
+@import "../../styles/Const.scss";
+
+.pages {
+  display: flex;
+  justify-content: center;
+  width: $wrapper;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+
 /* CSS */
 .buttonPages {
   align-items: center;

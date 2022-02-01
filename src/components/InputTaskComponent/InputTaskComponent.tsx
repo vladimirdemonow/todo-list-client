@@ -1,9 +1,6 @@
 import { useRef } from "react";
-import styles from "./InputTaskComponentStyle";
-import inputsStyle from "./style-inputs.module.scss";
+import styles from "./InputTaskComponent.module.scss";
 import { v4 } from "uuid";
-
-import React, { useState } from "react";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
@@ -49,12 +46,12 @@ export default (): JSX.Element => {
   };
 
   return (
-    <div className={inputsStyle.form__group} style={styles.input_task}>
+    <div className={styles.form__group}>
       <input
         type="input"
         ref={inputTaskRef}
         onKeyDownCapture={onInputTask}
-        className={inputsStyle.form__field}
+        className={styles.form__field}
         placeholder="Name"
         name="name"
         id="name"

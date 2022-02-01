@@ -1,9 +1,9 @@
-import styles from "./SortStyle";
+import styles from "./SortComponent.module.scss";
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
 
 export default (): JSX.Element => {
   return (
-    <div className="sort" style={styles.sort}>
+    <div className={styles.sort}>
       <AiFillCaretUp>
         <button>Up</button>
       </AiFillCaretUp>
