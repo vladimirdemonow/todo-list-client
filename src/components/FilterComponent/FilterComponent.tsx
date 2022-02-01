@@ -1,10 +1,6 @@
 import styles from "./FilterComponent.module.scss";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {
-  setFilter,
-  selectFilter,
-  TFilter,
-} from "../../features/counter/counterSlice";
+import { setFilter, selectFilter } from "../../features/counter/counterSlice";
 
 export default (): JSX.Element => {
   const filterSelector = useAppSelector(selectFilter);
