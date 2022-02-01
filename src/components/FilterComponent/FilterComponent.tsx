@@ -1,4 +1,10 @@
 import styles from "./FilterComponent.module.scss";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import {
+  setFilter,
+  selectFilter,
+  TFilter,
+} from "../../features/counter/counterSlice";
 
 export default (): JSX.Element => {
   return (

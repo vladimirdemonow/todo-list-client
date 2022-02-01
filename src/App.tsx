@@ -6,8 +6,6 @@ import PagesComponent from "./components/PagesComponent/PagesComponent";
 import styles from "./styles/App.module.scss";
 
 function App() {
-  console.log(styles);
-
   return (
     <div className={styles.main_container}>
       <h1>ToDo</h1>

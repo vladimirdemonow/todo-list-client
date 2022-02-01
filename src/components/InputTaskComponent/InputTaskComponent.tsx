@@ -21,7 +21,6 @@ export default (): JSX.Element => {
   const onInputTask = ({ key }: IInputKey) => {
     if (key === "Enter") {
       let { value } = inputTaskRef.current;
-      console.log(selector);
 
       if (value) {
         inputTaskRef.current.value = "";
