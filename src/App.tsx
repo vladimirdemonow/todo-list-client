@@ -1,9 +1,10 @@
+import InputTaskComponent from "./components/InputTaskComponent/InputTaskComponent";
 import TaskListComponent from "./components/TaskListComponent/TaskListComponent";
 import FilterComponent from "./components/FilterComponent/FilterComponent";
 import SortComponent from "./components/SortComponent/SortComponent";
 import PagesComponent from "./components/PagesComponent/PagesComponent";
 import styles from "./styles/styles";
-import inputsStyle from "./styles/style-inputs.module.scss";
+import { useRef } from "react";
 
 function createTask(text: String, date: String): Task {
   return { text, date };
@@ -27,15 +28,7 @@ function App() {
       <h1 className="logo" style={styles.logo}>
         ToDo
       </h1>
-      <div className={inputsStyle.form__group} style={styles.input_task}>
-        <input
-          type="input"
-          className={inputsStyle.form__field}
-          placeholder="Name"
-          name="name"
-          id="name"
-        />
-      </div>
+      <InputTaskComponent text="here"></InputTaskComponent>
       <div className="buttons" style={styles.buttons}>
         <FilterComponent></FilterComponent>
         <div>

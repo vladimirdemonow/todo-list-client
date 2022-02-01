@@ -1,5 +1,5 @@
 import styles from "./FilterStyle";
-import buttonsStyle from "../../styles/style-buttons.module.scss";
+import buttonsStyle from "./FilterStyle.module.scss";
 
 interface FilterElementProps {}
 

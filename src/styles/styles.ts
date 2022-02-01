@@ -18,13 +18,9 @@ interface IMainContainerStyle {
 
 // Logo interface
 interface ILogoStyle {
-
+    
 }
 
-// InputTask interface
-interface IInputTaskStyle {
-    width: IWidth
-}
 
 
 // Buttons interface
@@ -51,20 +47,9 @@ interface ITaskStyle {
 }
 
 
-
-interface IStyleComponent {
-    display? : IDisplay
-    alignItems? : IFlexAlignItems
-    justifyContent ?: IFlexJustifyContent
-    width?: IWidth
-    height? : IHeight
-    flexDirection? : IFlexDirection
-}
-
 interface IStyles {
     main_container ?: IMainContainerStyle
     logo ?: ILogoStyle
-    input_task ?: IInputTaskStyle
     buttons ?: IButtonsStyle
     task ?: ITaskStyle
 }
@@ -81,9 +66,6 @@ const styles : IStyles = {
     },
     logo: {
         
-    },
-    input_task: {
-        width: wrapper
     },
     buttons: {
         display: "flex",
