@@ -41,6 +41,9 @@ export default (): JSX.Element => {
         );
       }
     }
+    if (key === "Escape") {
+      inputTaskRef.current.value = "";
+    }
   };
 
   return (
@@ -48,7 +51,7 @@ export default (): JSX.Element => {
       <input
         type="input"
         ref={inputTaskRef}
-        onKeyPress={onInputTask}
+        onKeyDownCapture={onInputTask}
         className={inputsStyle.form__field}
         placeholder="Name"
         name="name"
