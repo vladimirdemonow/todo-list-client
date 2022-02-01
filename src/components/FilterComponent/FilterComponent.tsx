@@ -28,11 +28,28 @@ export default (): JSX.Element => {
 
   return (
     <div className={styles.filter}>
-      <button className={styles.button_3 + activatedFilter["all"]}>All</button>
-      <button className={styles.button_3 + activatedFilter["done"]}>
+      <button
+        className={styles.button_3 + activatedFilter["all"]}
+        onClick={() => {
+          dispatch(setFilter("all"));
+        }}
+      >
+        All
+      </button>
+      <button
+        className={styles.button_3 + activatedFilter["done"]}
+        onClick={() => {
+          dispatch(setFilter("done"));
+        }}
+      >
         Done
       </button>
-      <button className={styles.button_3 + activatedFilter["undone"]}>
+      <button
+        className={styles.button_3 + activatedFilter["undone"]}
+        onClick={() => {
+          dispatch(setFilter("undone"));
+        }}
+      >
         Undone
       </button>
     </div>
