@@ -1,11 +1,11 @@
 
-import {IDisplay, IFlexJustifyContent, IFlexDirection, IWidth, wrapper} from '../../styles/style-const'
+import {IDisplay, IFlexJustifyContent, IFlexDirection, IMainWidth, wrapper} from '../../styles/style-const'
 
 interface ITaskListStyle {
   display: IDisplay;
   justifyContent: IFlexJustifyContent;
   flexDirection: IFlexDirection
-  width: IWidth
+  width: IMainWidth
 }
 
 // Task Element interface

@@ -1,11 +1,11 @@
 
-import {IWidth, wrapper} from '../../styles/style-const'
+import {IMainWidth, wrapper} from '../../styles/style-const'
 
 
 
 // InputTask interface
 interface IInputTaskStyle {
-    width: IWidth
+    width: IMainWidth
 }
 
 interface IInputTaskElementStyle {

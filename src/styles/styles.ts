@@ -1,4 +1,4 @@
-import {IDisplay, IFlexAlignItems, IFlexJustifyContent, IWidth, IHeight, IFlexDirection, wrapper} from './style-const'
+import {IDisplay, IFlexAlignItems, IFlexJustifyContent, IMainWidth, IMainHeight, IFlexDirection, wrapper} from './style-const'
 
 // MainContainer Interface
 
@@ -27,7 +27,7 @@ interface ILogoStyle {
 interface IButtonsStyle {
     display: IDisplay
     justifyContent: IFlexJustifyContent
-    width: IWidth
+    width: IMainWidth
 }
 
 
@@ -36,7 +36,7 @@ interface IButtonsStyle {
 interface ITaskListStyle {
     display: IDisplay
     flexDirection: IFlexDirection
-    width: IWidth
+    width: IMainWidth
 }
 
 

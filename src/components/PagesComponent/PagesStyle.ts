@@ -1,12 +1,12 @@
 
-import {IDisplay, IFlexJustifyContent, IWidth, wrapper} from '../../styles/style-const'
+import {IDisplay, IFlexJustifyContent, IMainWidth, wrapper} from '../../styles/style-const'
 
 
 // Pages interface
 interface IPagesStyle {
     display: IDisplay
     justifyContent: IFlexJustifyContent
-    width: IWidth
+    width: IMainWidth
 }
 
 // Task Element interface

@@ -32,6 +32,7 @@ export default (): JSX.Element => {
           .toString()
           .trim()
           .split(" ");
+
         dispatch(
           createTask({
             text: value,
