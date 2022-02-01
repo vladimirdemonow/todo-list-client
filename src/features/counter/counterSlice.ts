@@ -9,10 +9,14 @@ interface Task {
 
 export interface CounterState {
   taskList: Array<Task>
+  filter: 'all' | 'done' | 'undone'
+  sort: 'up' | 'down' | 'default'
 }
 
 const initialState: CounterState = {
   taskList: [],
+  filter: 'all',
+  sort: 'default'
 };
 
 export const counterSlice = createSlice({
