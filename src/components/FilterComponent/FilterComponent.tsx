@@ -1,9 +1,7 @@
 import styles from "./FilterStyle";
 import buttonsStyle from "./FilterStyle.module.scss";
 
-interface FilterElementProps {}
-
-export default (props: FilterElementProps): JSX.Element => {
+export default (): JSX.Element => {
   return (
     <div className="filter" style={styles.filter}>
       <button

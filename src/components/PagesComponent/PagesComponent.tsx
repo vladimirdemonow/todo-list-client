@@ -3,12 +3,8 @@ import buttonStyles from "./PagesButtonsStyle.module.scss";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
-interface PagesProps {
-  count: Number;
-}
-
-export default (props: PagesProps): JSX.Element => {
-  const array = new Array(props.count).fill(1);
+export default (): JSX.Element => {
+  const array = new Array(5).fill(1);
 
   return (
     <div className="pages" style={styles.pages}>

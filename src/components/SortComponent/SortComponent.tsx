@@ -1,8 +1,7 @@
 import styles from "./SortStyle";
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
-interface SortElementProps {}
 
-export default (props: SortElementProps): JSX.Element => {
+export default (): JSX.Element => {
   return (
     <div className="sort" style={styles.sort}>
       <AiFillCaretUp>

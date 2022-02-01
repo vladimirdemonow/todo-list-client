@@ -1,19 +1,15 @@
 import styles from "./TaskListStyle";
 import TaskComponent from "./TaskComponent/TaskComponent";
 
-interface TaskListProps {
-  list: Array<Task>;
-}
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { selectTaskList } from "../../features/counter/counterSlice";
 
-interface Task {
-  text: String;
-  date: String;
-}
+export default (): JSX.Element => {
+  const taskListSelector = useAppSelector(selectTaskList);
 
-export default (props: TaskListProps): JSX.Element => {
   return (
     <div className="task_list" style={styles.task_list}>
-      {props.list.map((element, index) => (
+      {taskListSelector?.map((element, index) => (
         <TaskComponent
           key={element.date.toString() + index}
           text={element.text}
