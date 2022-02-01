@@ -2,34 +2,65 @@ import styles from "./TaskComponent.module.scss";
 import { AiFillDelete } from "react-icons/ai";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import {
+  completeTask,
+  uncompleteTask,
+} from "../../../features/counter/counterSlice";
+
 interface TaskElementProps {
-  key: String;
+  key: string;
+  id: string;
   text: String;
   date: String;
   isCompleted: boolean;
 }
 
 export default (props: TaskElementProps): JSX.Element => {
-  let dividedText = props.text;
-  const taskTextArray = [];
+  const dispatch = useAppDispatch();
 
-  while (dividedText.length > 40) {
-    taskTextArray.push(<div> {dividedText.slice(0, 35)} </div>);
-    dividedText = dividedText.slice(35, dividedText.length - 1);
-  }
+  const taskTextArray = createDividedString(props.text);
 
-  taskTextArray.push(<div>{dividedText}</div>);
+  let activeColor = props.isCompleted ? " " + styles.task__completed : " ";
 
   return (
-    <div className={styles.task}>
-      <AiOutlineCheckCircle size={30}>
-        <input className={styles.task__check} type="checkbox"></input>
-      </AiOutlineCheckCircle>
+    <div className={styles.task + activeColor}>
+      <AiOutlineCheckCircle
+        size={30}
+        onClick={() => {
+          dispatch(
+            !props.isCompleted
+              ? completeTask(props.id)
+              : uncompleteTask(props.id)
+          );
+          console.log(1);
+        }}
+      />
       <div className={styles.task__text}>{taskTextArray}</div>
       <div className={styles.task__date}>{props.date}</div>
-      <AiFillDelete size={30}>
-        <button className={styles.task__delete}>delete</button>
-      </AiFillDelete>
+      <AiFillDelete
+        size={30}
+        onClick={() => {
+          dispatch(
+            !props.isCompleted
+              ? completeTask(props.id)
+              : uncompleteTask(props.id)
+          );
+          console.log(1);
+        }}
+      />
     </div>
   );
 };
+
+function createDividedString(text: String): Array<JSX.Element> {
+  const taskTextArray = [];
+
+  while (text.length > 40) {
+    taskTextArray.push(<div> {text.slice(0, 35)} </div>);
+    text = text.slice(35, text.length - 1);
+  }
+
+  taskTextArray.push(<div>{text}</div>);
+  return taskTextArray;
+}

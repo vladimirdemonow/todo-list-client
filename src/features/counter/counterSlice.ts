@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 
 interface ITask {
-  id: any
+  id: string
   text: String;
   date: String;
   isCompleted: boolean
@@ -20,7 +20,7 @@ export interface CounterState {
 
 const initialState: CounterState = {
   taskList: [],
-  filter: 'done',
+  filter: 'all',
   sort: 'default',
 };
 
@@ -38,10 +38,24 @@ export const counterSlice = createSlice({
     setSort: (state, action: PayloadAction<TSort>) => {
       state.sort = action.payload
     },
+    completeTask: (state, action: PayloadAction<string>) => {
+      state.taskList.find((element, index, array) => {
+        if(element.id === action.payload) {
+          array[index].isCompleted = true;
+        }
+      })
+    },
+    uncompleteTask: (state, action: PayloadAction<string>) => {
+      state.taskList.find((element, index, array) => {
+        if(element.id === action.payload) {
+          array[index].isCompleted = false;
+        }
+      })
+    }
   },
 });
 
-export const { createTask, setFilter, setSort } = counterSlice.actions;
+export const { createTask, setFilter, setSort, completeTask, uncompleteTask } = counterSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
