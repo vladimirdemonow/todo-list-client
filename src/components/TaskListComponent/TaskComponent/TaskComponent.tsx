@@ -6,6 +6,7 @@ interface TaskElementProps {
   key: String;
   text: String;
   date: String;
+  isCompleted: boolean;
 }
 
 export default (props: TaskElementProps): JSX.Element => {

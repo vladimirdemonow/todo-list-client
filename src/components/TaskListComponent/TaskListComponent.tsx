@@ -14,6 +14,7 @@ export default (): JSX.Element => {
           key={element.id}
           text={element.text}
           date={element.date}
+          isCompleted={element.isCompleted}
         ></TaskComponent>
       ))}
     </div>

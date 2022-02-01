@@ -35,6 +35,7 @@ export default (): JSX.Element => {
             id: v4(),
             text: value,
             date: `${time} | ${number} ${month} ${year}`,
+            isCompleted: false,
           })
         );
       }

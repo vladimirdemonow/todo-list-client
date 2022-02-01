@@ -5,6 +5,7 @@ interface ITask {
   id: any
   text: String;
   date: String;
+  isCompleted: boolean
 }
 
 export type TFilter = 'all' | 'done' | 'undone'
