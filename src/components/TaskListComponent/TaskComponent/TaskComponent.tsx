@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 import {
   completeTask,
   uncompleteTask,
+  deleteTask,
 } from "../../../features/counter/counterSlice";
 
 interface TaskElementProps {
@@ -29,11 +30,10 @@ export default (props: TaskElementProps): JSX.Element => {
         size={30}
         onClick={() => {
           dispatch(
-            !props.isCompleted
-              ? completeTask(props.id)
-              : uncompleteTask(props.id)
+            props.isCompleted
+              ? uncompleteTask(props.id)
+              : completeTask(props.id)
           );
-          console.log(1);
         }}
       />
       <div className={styles.task__text}>{taskTextArray}</div>
@@ -41,12 +41,7 @@ export default (props: TaskElementProps): JSX.Element => {
       <AiFillDelete
         size={30}
         onClick={() => {
-          dispatch(
-            !props.isCompleted
-              ? completeTask(props.id)
-              : uncompleteTask(props.id)
-          );
-          console.log(1);
+          dispatch(deleteTask(props.id));
         }}
       />
     </div>
