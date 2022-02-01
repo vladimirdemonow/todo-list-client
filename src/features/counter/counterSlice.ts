@@ -2,20 +2,17 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 
 interface Task {
+  id: any
   text: String;
   date: String;
 }
 
 export interface CounterState {
-  value: number;
   taskList: Array<Task>
-  status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: CounterState = {
-  value: 0,
   taskList: [],
-  status: 'idle',
 };
 
 export const counterSlice = createSlice({

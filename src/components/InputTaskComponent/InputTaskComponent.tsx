@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import styles from "./InputTaskComponentStyle";
 import inputsStyle from "./style-inputs.module.scss";
+import { v4 } from "uuid";
 
 import React, { useState } from "react";
 
@@ -35,6 +36,7 @@ export default (): JSX.Element => {
 
         dispatch(
           createTask({
+            id: v4(),
             text: value,
             date: `${time} | ${number} ${month} ${year}`,
           })

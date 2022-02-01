@@ -12,7 +12,7 @@ export default (): JSX.Element => {
     <div className="task_list" style={styles.task_list}>
       {taskListSelector?.map((element, index) => (
         <TaskComponent
-          key={element.date.toString() + index}
+          key={element.id}
           text={element.text}
           date={element.date}
         ></TaskComponent>
