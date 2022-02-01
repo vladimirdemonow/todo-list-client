@@ -1,6 +1,7 @@
 import styles from "./TaskStyle";
 import { AiFillDelete } from "react-icons/ai";
 import { AiOutlineCheckCircle } from "react-icons/ai";
+import borderStyle from "./TaskStyleBorder.module.scss";
 
 interface TaskElementProps {
   key: String;
@@ -12,15 +13,15 @@ export default (props: TaskElementProps): JSX.Element => {
   let dividedText = props.text;
   const taskTextArray = [];
 
-  while (dividedText.length > 25) {
-    taskTextArray.push(<div> {dividedText.slice(0, 20)} </div>);
-    dividedText = dividedText.slice(20, dividedText.length - 1);
+  while (dividedText.length > 40) {
+    taskTextArray.push(<div> {dividedText.slice(0, 35)} </div>);
+    dividedText = dividedText.slice(35, dividedText.length - 1);
   }
 
   taskTextArray.push(<div>{dividedText}</div>);
 
   return (
-    <div className="task" style={styles.task}>
+    <div className={borderStyle.border} style={styles.task}>
       <AiOutlineCheckCircle size={30}>
         <input
           className="task__check"
