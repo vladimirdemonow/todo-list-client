@@ -8,13 +8,13 @@ interface Task {
 
 export interface CounterState {
   value: number;
-  taskList: Array<Task> | null
+  taskList: Array<Task>
   status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: CounterState = {
   value: 0,
-  taskList: null,
+  taskList: [],
   status: 'idle',
 };
 
@@ -24,7 +24,7 @@ export const counterSlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     createTask: (state, action: PayloadAction<Task>) => {
-      state.taskList?.push(action.payload)
+      state.taskList.push(action.payload)
     }
   },
 });

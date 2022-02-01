@@ -6,6 +6,7 @@ import { selectTaskList } from "../../features/counter/counterSlice";
 
 export default (): JSX.Element => {
   const taskListSelector = useAppSelector(selectTaskList);
+  console.log(taskListSelector);
 
   return (
     <div className="task_list" style={styles.task_list}>
