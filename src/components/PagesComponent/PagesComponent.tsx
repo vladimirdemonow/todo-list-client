@@ -1,33 +1,30 @@
 import styles from "./PagesComponent.module.scss";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-import { selectTaskList } from "../../features/counter/counterSlice";
+import {
+  selectTaskList,
+  setPage,
+  selectCurrentElementCount,
+} from "../../features/counter/counterSlice";
 import { useAppSelector } from "../../app/hooks";
 
 export default (): JSX.Element => {
-  const tasks = useAppSelector(selectTaskList);
-  let count = 0;
+  const pageArray: Array<JSX.Element> = [];
+  const tasksCount: number = useAppSelector(selectCurrentElementCount);
+  const pageCount = Math.floor(tasksCount / 5);
 
-  const arrayPage = tasks.filter((element) => {
-    if (count !== 4) {
-      count++;
-      return false;
-    } else {
-      count = 0;
-      return true;
-    }
-  });
+  for (let i = 0; i < pageCount; i++) {
+    pageArray.push(
+      <button className={styles.buttonPages} key={"key" + i}>
+        {i + 1}
+      </button>
+    );
+  }
 
   const resultJSX = (
     <div className={styles.pages}>
       <AiFillCaretLeft size={42} />
-      {arrayPage.map((element, index) => {
-        return (
-          <button className={styles.buttonPages} key={"key" + index}>
-            {index + 1}
-          </button>
-        );
-      })}
+      {pageArray}
       <AiFillCaretRight size={42} />
     </div>
   );

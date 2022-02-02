@@ -9,6 +9,7 @@ import {
   ITask,
   TFilter,
   TSort,
+  setCurrentElementCount,
 } from "../../features/counter/counterSlice";
 import { useEffect } from "react";
 
@@ -19,7 +20,9 @@ export default (): JSX.Element => {
   tasks = filterTasks(tasks, useAppSelector(selectFilter));
   tasks = sortTasks([...tasks], useAppSelector(selectSort));
 
-  useEffect(() => {}, [tasks.length]);
+  useEffect(() => {
+    dispatch(setCurrentElementCount(tasks.length));
+  }, [tasks.length]);
 
   return (
     <div className={styles.task_list}>
