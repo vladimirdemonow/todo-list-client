@@ -18,11 +18,9 @@ export default (): JSX.Element => {
     }
   });
 
-  return (
+  const resultJSX = (
     <div className={styles.pages}>
-      <AiFillCaretLeft size={42}>
-        <button></button>
-      </AiFillCaretLeft>
+      <AiFillCaretLeft size={42} />
       {arrayPage.map((element, index) => {
         return (
           <button className={styles.buttonPages} key={"key" + index}>
@@ -30,9 +28,9 @@ export default (): JSX.Element => {
           </button>
         );
       })}
-      <AiFillCaretRight size={42}>
-        <button></button>
-      </AiFillCaretRight>
+      <AiFillCaretRight size={42} />
     </div>
   );
+
+  return resultJSX;
 };

@@ -17,12 +17,16 @@ export interface CounterState {
   taskList: Array<ITask>
   filter: TFilter
   sort: TSort
+  page: number
+  currentElementsCount: number
 }
 
 const initialState: CounterState = {
   taskList: [],
   filter: 'all',
   sort: 'default',
+  page: 1,
+  currentElementsCount: 0
 };
 
 export const counterSlice = createSlice({
@@ -58,10 +62,16 @@ export const counterSlice = createSlice({
         return (element.id === action.payload) ?  false : true
       })
     },
+    setCurrentElementCount: (state, action: PayloadAction<number>) => {
+      state.currentElementsCount = action.payload
+    },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload
+    },
   },
 });
 
-export const { createTask, setFilter, setSort, completeTask, uncompleteTask, deleteTask } = counterSlice.actions;
+export const { createTask, setFilter, setSort, completeTask, uncompleteTask, deleteTask, setCurrentElementCount } = counterSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -69,5 +79,7 @@ export const { createTask, setFilter, setSort, completeTask, uncompleteTask, del
 export const selectTaskList = (state: RootState) => state.counter.taskList;
 export const selectFilter = (state: RootState) => state.counter.filter;
 export const selectSort = (state: RootState) => state.counter.sort;
+export const selectCurrentElementCount = (state: RootState) => state.counter.currentElementsCount
+export const selectPage = (state: RootState) => state.counter.page
 
 export default counterSlice.reducer;

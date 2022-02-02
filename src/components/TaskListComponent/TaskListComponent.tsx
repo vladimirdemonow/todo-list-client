@@ -10,12 +10,16 @@ import {
   TFilter,
   TSort,
 } from "../../features/counter/counterSlice";
+import { useEffect } from "react";
 
 export default (): JSX.Element => {
   let tasks = useAppSelector(selectTaskList);
+  const dispatch = useAppDispatch();
 
   tasks = filterTasks(tasks, useAppSelector(selectFilter));
   tasks = sortTasks([...tasks], useAppSelector(selectSort));
+
+  useEffect(() => {}, [tasks.length]);
 
   return (
     <div className={styles.task_list}>
