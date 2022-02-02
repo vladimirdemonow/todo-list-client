@@ -31,7 +31,7 @@ function createFilterButton(
   currentFilter: TFilter,
   dispatch: any,
   activeFilter: TFilter
-) {
+): JSX.Element {
   return (
     <button
       className={
