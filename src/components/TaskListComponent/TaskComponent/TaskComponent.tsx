@@ -7,7 +7,7 @@ import {
   completeTask,
   uncompleteTask,
   deleteTask,
-} from "../../../features/counter/counterSlice";
+} from "../../../features/taskList/taskListSlice";
 
 interface TaskElementProps {
   key: string;

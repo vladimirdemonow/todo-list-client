@@ -9,56 +9,47 @@ export interface ITask {
   timeStamp: number;
 }
 
-export interface ICounterState {
-  taskList: Array<ITask>;
-  pagePoint: number;
-  pageCount: number;
-  currentElementsCount: number;
+export interface ITaskListState {
+  tasks: Array<ITask>;
+  count: number;
 }
 
-const initialState: ICounterState = {
-  taskList: [],
-  pagePoint: 1,
-  pageCount: 1,
-  currentElementsCount: 0,
+const initialState: ITaskListState = {
+  tasks: [],
+  count: 0,
 };
 
-export const counterSlice = createSlice({
-  name: "counter",
+export const taskListSlice = createSlice({
+  name: "taskList",
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     createTask: (state, action: PayloadAction<ITask>) => {
-      state.taskList.push(action.payload);
+      state.tasks.push(action.payload);
+      state.count++;
     },
     completeTask: (state, action: PayloadAction<string>) => {
-      state.taskList.find((element, index, array) => {
+      state.tasks.find((element, index, array) => {
         if (element.id === action.payload) {
           array[index].isCompleted = true;
         }
       });
     },
     uncompleteTask: (state, action: PayloadAction<string>) => {
-      state.taskList.find((element, index, array) => {
+      state.tasks.find((element, index, array) => {
         if (element.id === action.payload) {
           array[index].isCompleted = false;
         }
       });
     },
     deleteTask: (state, action: PayloadAction<string>) => {
-      state.taskList = state.taskList.filter((element) => {
+      state.tasks = state.tasks.filter((element) => {
         return element.id === action.payload ? false : true;
       });
-      state.currentElementsCount--;
+      state.count--;
     },
     setCurrentElementCount: (state, action: PayloadAction<number>) => {
-      state.currentElementsCount = action.payload;
-    },
-    setPagePoint: (state, action: PayloadAction<number>) => {
-      state.pagePoint = action.payload;
-    },
-    setPageCount: (state, action: PayloadAction<number>) => {
-      state.pageCount = action.payload;
+      state.count = action.payload;
     },
   },
 });
@@ -69,16 +60,13 @@ export const {
   uncompleteTask,
   deleteTask,
   setCurrentElementCount,
-  setPagePoint,
-  setPageCount,
-} = counterSlice.actions;
+} = taskListSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectTaskList = (state: RootState) => state.counter.taskList;
+export const selectTaskList = (state: RootState) => state.taskList.tasks;
 export const selectCurrentElementCount = (state: RootState) =>
-  state.counter.currentElementsCount;
-export const selectPage = (state: RootState) => state.counter.pagePoint;
+  state.taskList.count;
 
-export default counterSlice.reducer;
+export default taskListSlice.reducer;

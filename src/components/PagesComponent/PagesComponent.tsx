@@ -1,10 +1,9 @@
 import styles from "./PagesComponent.module.scss";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-import {
-  setPagePoint,
-  selectCurrentElementCount,
-} from "../../features/counter/counterSlice";
+import { selectCurrentElementCount } from "../../features/taskList/taskListSlice";
+import { setPagePoint } from "../../features/page/pageSlice";
+
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 // import { useEffect } from "react";
 

@@ -4,11 +4,11 @@ import TaskComponent from "./TaskComponent/TaskComponent";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   selectTaskList,
-  selectPage,
   ITask,
   setCurrentElementCount,
-  setPagePoint,
-} from "../../features/counter/counterSlice";
+} from "../../features/taskList/taskListSlice";
+
+import { setPagePoint, selectPage } from "../../features/page/pageSlice";
 
 import {
   TFilter,

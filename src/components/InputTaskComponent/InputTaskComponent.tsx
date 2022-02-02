@@ -3,7 +3,7 @@ import styles from "./InputTaskComponent.module.scss";
 import { v4 } from "uuid";
 
 import { useAppDispatch } from "../../app/hooks";
-import { createTask } from "../../features/counter/counterSlice";
+import { createTask } from "../../features/taskList/taskListSlice";
 
 interface IInputKey {
   key: string;
