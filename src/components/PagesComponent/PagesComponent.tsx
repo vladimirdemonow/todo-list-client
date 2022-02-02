@@ -1,7 +1,11 @@
 import styles from "./PagesComponent.module.scss";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-import { setPageCount, setPagePoint } from "../../features/page/pageSlice";
+import {
+  selectPageCount,
+  setPageCount,
+  setPagePoint,
+} from "../../features/page/pageSlice";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectTaskList } from "../../features/taskList/taskListSlice";
@@ -11,7 +15,7 @@ import { useEffect } from "react";
 export default (): JSX.Element => {
   const pageArray: Array<JSX.Element> = [];
   const tasksCount: number = useAppSelector(selectTaskList).length;
-  const pageCount = Math.ceil(tasksCount / 5);
+  const pageCount = useAppSelector(selectPageCount);
 
   const dispatch = useAppDispatch();
 
@@ -33,9 +37,9 @@ export default (): JSX.Element => {
     );
   }
 
-  // useEffect(() => {
-  //   dispatch(setPageCount(pageCount));
-  // }, [pageCount]);
+  useEffect(() => {
+    dispatch(setPageCount(pageCount));
+  }, [pageCount]);
 
   return (
     <div className={styles.pages}>

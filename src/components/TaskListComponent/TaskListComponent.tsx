@@ -26,10 +26,14 @@ export default (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   tasks = filterTasks(tasks, useAppSelector(selectFilter));
-  tasks = sortTasks([...tasks], useAppSelector(selectSort));
-  const pageCount = Math.ceil(tasks.length / 5);
+  tasks = sortTasks([...tasks], useAppSelector(selectSort)).reverse();
 
+  const pageCount = Math.ceil(tasks.length / 5);
   tasks = pageTasks(tasks, pagePointSelector);
+
+  // useEffect(() => {
+
+  // }, [])
 
   useEffect(() => {
     dispatch(setPageCount(pageCount));
