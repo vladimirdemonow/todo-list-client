@@ -61,6 +61,7 @@ export const counterSlice = createSlice({
       state.taskList = state.taskList.filter((element) => {
         return (element.id === action.payload) ?  false : true
       })
+      state.currentElementsCount--
     },
     setCurrentElementCount: (state, action: PayloadAction<number>) => {
       state.currentElementsCount = action.payload

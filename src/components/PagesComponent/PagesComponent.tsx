@@ -20,17 +20,25 @@ export default (): JSX.Element => {
   }
 
   // CANT USE EFFECT: uncaught Error: Rendered more hooks than during the previous render.
-  for (let i = 0; i <= pageCount; i++) {
+  // This cicle is not cause of this problem
+  for (let i = 1; i <= pageCount + 1; i++) {
     pageArray.push(
       <button
         className={styles.buttonPages}
         key={"key" + i}
-        onClick={() => dispatch(setPage(i + 1))}
+        onClick={() => {
+          dispatch(setPage(i));
+          return;
+        }}
       >
-        {i + 1}
+        {i}
       </button>
     );
   }
+
+  // useEffect(() => {
+  //   dispatch(setPage(pageCount));
+  // }, [pageCount]);
 
   const resultJSX = (
     <div className={styles.pages}>
