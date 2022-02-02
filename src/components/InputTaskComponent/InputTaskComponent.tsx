@@ -36,6 +36,7 @@ export default (): JSX.Element => {
             text: value,
             date: `${time} | ${number} ${month} ${year}`,
             isCompleted: false,
+            timeStamp: Date.now(),
           })
         );
       }

@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 
-interface ITask {
+export interface ITask {
   id: string
   text: String;
   date: String;
   isCompleted: boolean
+  timeStamp: number
 }
 
 export type TFilter = 'all' | 'done' | 'undone'
