@@ -2,20 +2,25 @@ import styles from "./PagesComponent.module.scss";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import {
-  selectTaskList,
   setPage,
   selectCurrentElementCount,
 } from "../../features/counter/counterSlice";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 export default (): JSX.Element => {
   const pageArray: Array<JSX.Element> = [];
   const tasksCount: number = useAppSelector(selectCurrentElementCount);
   const pageCount = Math.floor(tasksCount / 5);
 
+  const dispatch = useAppDispatch();
+
   for (let i = 0; i < pageCount; i++) {
     pageArray.push(
-      <button className={styles.buttonPages} key={"key" + i}>
+      <button
+        className={styles.buttonPages}
+        key={"key" + i}
+        onClick={() => dispatch(setPage(i + 1))}
+      >
         {i + 1}
       </button>
     );
