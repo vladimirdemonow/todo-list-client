@@ -18,34 +18,67 @@ import {
   selectSort,
 } from "../../features/order/orderSlice";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default (): JSX.Element => {
-  let tasks = useAppSelector(selectTaskList);
+  const taskListSelector = useAppSelector(selectTaskList);
+  const filterSelector = useAppSelector(selectFilter);
+  const sortSelector = useAppSelector(selectSort);
   const pagePointSelector = useAppSelector(selectPagePoint);
+  const pageCountSelector = useAppSelector(selectPageCount);
+  const [tasks, setTasks] = useState(taskListSelector);
+  const [viewPage, setViewPage] = useState(taskListSelector);
   const dispatch = useAppDispatch();
 
-  tasks = filterTasks(tasks, useAppSelector(selectFilter));
-  tasks = sortTasks([...tasks], useAppSelector(selectSort)).reverse();
-
   const pageCount = Math.ceil(tasks.length / 5);
-  tasks = pageTasks(tasks, pagePointSelector);
 
-  // useEffect(() => {
+  useEffect(() => {
+    let filteredTasks = filterTasks(taskListSelector, filterSelector);
+    setTasks(filteredTasks);
 
-  // }, [])
+    let pagedTasks = pageTasks(filteredTasks, pagePointSelector);
+
+    setViewPage(pagedTasks);
+  }, [filterSelector]);
+
+  useEffect(() => {
+    let sortedTasks = sortTasks([...tasks], sortSelector);
+
+    setTasks(sortedTasks);
+
+    let pagedTasks = pageTasks(sortedTasks, pagePointSelector);
+
+    setViewPage(pagedTasks);
+  }, [sortSelector]);
+
+  useEffect(() => {
+    try {
+      setViewPage(pageTasks(tasks, pagePointSelector));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [pagePointSelector]);
+
+  useEffect(() => {
+    try {
+      setViewPage(pageTasks(taskListSelector, pagePointSelector));
+      setTasks(taskListSelector);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [taskListSelector]);
 
   useEffect(() => {
     dispatch(setPageCount(pageCount));
 
-    if (pagePointSelector > pageCount && pageCount > 0) {
+    if (pageCount < pagePointSelector && pageCount > 0) {
       dispatch(setPagePoint(pageCount));
     }
   }, [pageCount]);
 
   return (
     <div className={styles.task_list}>
-      {tasks.map((element) => (
+      {viewPage.map((element) => (
         <TaskComponent
           key={element.id}
           text={element.text}

@@ -37,9 +37,9 @@ export default (): JSX.Element => {
     );
   }
 
-  useEffect(() => {
-    dispatch(setPageCount(pageCount));
-  }, [pageCount]);
+  // useEffect(() => {
+  //   dispatch(setPageCount(pageCount));
+  // }, [pageCount]);
 
   return (
     <div className={styles.pages}>
