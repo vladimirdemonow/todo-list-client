@@ -6,6 +6,7 @@ import {
   selectCurrentElementCount,
 } from "../../features/counter/counterSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useEffect } from "react";
 
 export default (): JSX.Element => {
   const pageArray: Array<JSX.Element> = [];
@@ -14,7 +15,12 @@ export default (): JSX.Element => {
 
   const dispatch = useAppDispatch();
 
-  for (let i = 0; i < pageCount; i++) {
+  if (tasksCount < 6) {
+    return <></>;
+  }
+
+  // НЕ МОГУ ИСПОЛЬЗОВАТЬ USE EFFECT: uncaught Error: Rendered more hooks than during the previous render. // Не смог решить
+  for (let i = 0; i <= pageCount; i++) {
     pageArray.push(
       <button
         className={styles.buttonPages}
