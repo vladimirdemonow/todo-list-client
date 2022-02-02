@@ -4,14 +4,19 @@ import TaskComponent from "./TaskComponent/TaskComponent";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   selectTaskList,
-  selectFilter,
-  selectSort,
   selectPage,
   ITask,
+  setCurrentElementCount,
+  setPagePoint,
+} from "../../features/counter/counterSlice";
+
+import {
   TFilter,
   TSort,
-  setCurrentElementCount,
-} from "../../features/counter/counterSlice";
+  selectFilter,
+  selectSort,
+} from "../../features/order/orderSlice";
+
 import { useEffect } from "react";
 
 export default (): JSX.Element => {
@@ -22,22 +27,31 @@ export default (): JSX.Element => {
   tasks = sortTasks([...tasks], useAppSelector(selectSort));
   const currentLength = tasks.length;
 
-  tasks = pageTasks(tasks, useAppSelector(selectPage));
+  let pageSelector = useAppSelector(selectPage);
+  const pageCount = Math.ceil(currentLength / 5);
+  tasks = pageTasks(tasks, pageSelector);
+  console.log({ pageCount, pageSelector });
 
   useEffect(() => {
     dispatch(setCurrentElementCount(currentLength));
   }, [currentLength]);
 
+  useEffect(() => {
+    if (pageCount < pageSelector && pageCount > 1) {
+      dispatch(setPagePoint(pageCount));
+    }
+  }, [pageCount]);
+
   return (
     <div className={styles.task_list}>
-      {tasks?.map((element, index) => (
+      {tasks.map((element) => (
         <TaskComponent
           key={element.id}
           text={element.text}
           date={element.date}
           id={element.id}
           isCompleted={element.isCompleted}
-        ></TaskComponent>
+        />
       ))}
     </div>
   );
@@ -80,6 +94,7 @@ function sortTasks(tasks: Array<ITask>, sortSelector: TSort): Array<ITask> {
   return tasks;
 }
 
+// Set tasks on current page
 function pageTasks(tasks: Array<ITask>, page: number): Array<ITask> {
   const minPointPage = page * 5 - 5;
   const maxPointPage = page * 5 - 1;

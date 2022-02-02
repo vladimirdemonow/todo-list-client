@@ -22,7 +22,7 @@ export default (props: TaskElementProps): JSX.Element => {
 
   const taskTextArray = createDividedString(props.text);
 
-  let activeColor = props.isCompleted ? " " + styles.task__completed : " ";
+  const activeColor = props.isCompleted ? " " + styles.task__completed : " ";
 
   return (
     <div className={styles.task + activeColor}>

@@ -2,11 +2,11 @@ import styles from "./PagesComponent.module.scss";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import {
-  setPage,
+  setPagePoint,
   selectCurrentElementCount,
 } from "../../features/counter/counterSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 export default (): JSX.Element => {
   const pageArray: Array<JSX.Element> = [];
@@ -26,10 +26,7 @@ export default (): JSX.Element => {
       <button
         className={styles.buttonPages}
         key={"key" + i}
-        onClick={() => {
-          dispatch(setPage(i));
-          return;
-        }}
+        onClick={() => dispatch(setPagePoint(i))}
       >
         {i}
       </button>

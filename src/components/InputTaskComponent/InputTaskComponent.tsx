@@ -2,11 +2,8 @@ import { useRef } from "react";
 import styles from "./InputTaskComponent.module.scss";
 import { v4 } from "uuid";
 
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {
-  createTask,
-  selectTaskList,
-} from "../../features/counter/counterSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { createTask } from "../../features/counter/counterSlice";
 
 interface IInputKey {
   key: string;
@@ -14,7 +11,6 @@ interface IInputKey {
 
 export default (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const selector = useAppSelector(selectTaskList);
 
   const inputTaskRef: any = useRef(null); // any, because inputTaskRef.current.value - Property 'value' does not exist on type 'never'
 
@@ -25,7 +21,7 @@ export default (): JSX.Element => {
       if (value) {
         inputTaskRef.current.value = "";
 
-        const [day, month, number, year, time] = Date()
+        const [, month, number, year, time] = Date()
           .toString()
           .trim()
           .split(" ");
@@ -41,6 +37,7 @@ export default (): JSX.Element => {
         );
       }
     }
+
     if (key === "Escape") {
       inputTaskRef.current.value = "";
     }

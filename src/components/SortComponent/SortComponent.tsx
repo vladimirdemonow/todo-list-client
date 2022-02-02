@@ -2,7 +2,7 @@ import styles from "./SortComponent.module.scss";
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { setSort, selectSort } from "../../features/counter/counterSlice";
+import { setSort, selectSort } from "../../features/order/orderSlice";
 
 export default (): JSX.Element => {
   const sortSelector = useAppSelector(selectSort);
