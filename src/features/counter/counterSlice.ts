@@ -54,7 +54,7 @@ export const counterSlice = createSlice({
       })
     },
     deleteTask: (state, action: PayloadAction<string>) => {
-      state.taskList = state.taskList.filter((element, index, array) => {
+      state.taskList = state.taskList.filter((element) => {
         return (element.id === action.payload) ?  false : true
       })
     },
