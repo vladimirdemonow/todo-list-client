@@ -2,13 +2,14 @@ import styles from "./TaskListComponent.module.scss";
 import TaskComponent from "./TaskComponent/TaskComponent";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {
-  selectTaskList,
-  ITask,
-  setCurrentElementCount,
-} from "../../features/taskList/taskListSlice";
+import { selectTaskList, ITask } from "../../features/taskList/taskListSlice";
 
-import { setPagePoint, selectPage } from "../../features/page/pageSlice";
+import {
+  setPagePoint,
+  selectPagePoint,
+  selectPageCount,
+  setPageCount,
+} from "../../features/page/pageSlice";
 
 import {
   TFilter,
@@ -21,23 +22,19 @@ import { useEffect } from "react";
 
 export default (): JSX.Element => {
   let tasks = useAppSelector(selectTaskList);
+  const pagePointSelector = useAppSelector(selectPagePoint);
   const dispatch = useAppDispatch();
 
   tasks = filterTasks(tasks, useAppSelector(selectFilter));
   tasks = sortTasks([...tasks], useAppSelector(selectSort));
-  const currentLength = tasks.length;
+  const pageCount = Math.ceil(tasks.length / 5);
 
-  let pageSelector = useAppSelector(selectPage);
-  const pageCount = Math.ceil(currentLength / 5);
-  tasks = pageTasks(tasks, pageSelector);
-  console.log({ pageCount, pageSelector });
+  tasks = pageTasks(tasks, pagePointSelector);
 
   useEffect(() => {
-    dispatch(setCurrentElementCount(currentLength));
-  }, [currentLength]);
+    dispatch(setPageCount(pageCount));
 
-  useEffect(() => {
-    if (pageCount < pageSelector && pageCount > 1) {
+    if (pagePointSelector > pageCount && pageCount > 0) {
       dispatch(setPagePoint(pageCount));
     }
   }, [pageCount]);

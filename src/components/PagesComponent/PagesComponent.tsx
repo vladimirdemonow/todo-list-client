@@ -1,16 +1,17 @@
 import styles from "./PagesComponent.module.scss";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-import { selectCurrentElementCount } from "../../features/taskList/taskListSlice";
-import { setPagePoint } from "../../features/page/pageSlice";
+import { setPageCount, setPagePoint } from "../../features/page/pageSlice";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectTaskList } from "../../features/taskList/taskListSlice";
+import { useEffect } from "react";
 // import { useEffect } from "react";
 
 export default (): JSX.Element => {
   const pageArray: Array<JSX.Element> = [];
-  const tasksCount: number = useAppSelector(selectCurrentElementCount);
-  const pageCount = Math.floor(tasksCount / 5);
+  const tasksCount: number = useAppSelector(selectTaskList).length;
+  const pageCount = Math.ceil(tasksCount / 5);
 
   const dispatch = useAppDispatch();
 
@@ -20,7 +21,7 @@ export default (): JSX.Element => {
 
   // CANT USE EFFECT: uncaught Error: Rendered more hooks than during the previous render.
   // This cicle is not cause of this problem
-  for (let i = 1; i <= pageCount + 1; i++) {
+  for (let i = 1; i <= pageCount; i++) {
     pageArray.push(
       <button
         className={styles.buttonPages}
@@ -33,16 +34,14 @@ export default (): JSX.Element => {
   }
 
   // useEffect(() => {
-  //   dispatch(setPage(pageCount));
+  //   dispatch(setPageCount(pageCount));
   // }, [pageCount]);
 
-  const resultJSX = (
+  return (
     <div className={styles.pages}>
       <AiFillCaretLeft size={42} />
       {pageArray}
       <AiFillCaretRight size={42} />
     </div>
   );
-
-  return resultJSX;
 };

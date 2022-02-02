@@ -11,12 +11,10 @@ export interface ITask {
 
 export interface ITaskListState {
   tasks: Array<ITask>;
-  count: number;
 }
 
 const initialState: ITaskListState = {
   tasks: [],
-  count: 0,
 };
 
 export const taskListSlice = createSlice({
@@ -26,7 +24,6 @@ export const taskListSlice = createSlice({
   reducers: {
     createTask: (state, action: PayloadAction<ITask>) => {
       state.tasks.push(action.payload);
-      state.count++;
     },
     completeTask: (state, action: PayloadAction<string>) => {
       state.tasks.find((element, index, array) => {
@@ -46,27 +43,16 @@ export const taskListSlice = createSlice({
       state.tasks = state.tasks.filter((element) => {
         return element.id === action.payload ? false : true;
       });
-      state.count--;
-    },
-    setCurrentElementCount: (state, action: PayloadAction<number>) => {
-      state.count = action.payload;
     },
   },
 });
 
-export const {
-  createTask,
-  completeTask,
-  uncompleteTask,
-  deleteTask,
-  setCurrentElementCount,
-} = taskListSlice.actions;
+export const { createTask, completeTask, uncompleteTask, deleteTask } =
+  taskListSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectTaskList = (state: RootState) => state.taskList.tasks;
-export const selectCurrentElementCount = (state: RootState) =>
-  state.taskList.count;
 
 export default taskListSlice.reducer;

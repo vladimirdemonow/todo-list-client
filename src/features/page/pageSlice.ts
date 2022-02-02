@@ -27,6 +27,7 @@ export const pageSlice = createSlice({
 
 export const { setPagePoint, setPageCount } = pageSlice.actions;
 
-export const selectPage = (state: RootState) => state.page.pagePoint;
+export const selectPagePoint = (state: RootState) => state.page.pagePoint;
+export const selectPageCount = (state: RootState) => state.page.pageCount;
 
 export default pageSlice.reducer;
