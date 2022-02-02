@@ -19,7 +19,7 @@ export default (): JSX.Element => {
     return <></>;
   }
 
-  // НЕ МОГУ ИСПОЛЬЗОВАТЬ USE EFFECT: uncaught Error: Rendered more hooks than during the previous render. // Не смог решить
+  // CANT USE EFFECT: uncaught Error: Rendered more hooks than during the previous render.
   for (let i = 0; i <= pageCount; i++) {
     pageArray.push(
       <button

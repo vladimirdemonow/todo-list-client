@@ -6,6 +6,7 @@ import {
   selectTaskList,
   selectFilter,
   selectSort,
+  selectPage,
   ITask,
   TFilter,
   TSort,
@@ -19,10 +20,13 @@ export default (): JSX.Element => {
 
   tasks = filterTasks(tasks, useAppSelector(selectFilter));
   tasks = sortTasks([...tasks], useAppSelector(selectSort));
+  const currentLength = tasks.length;
+
+  tasks = pageTasks(tasks, useAppSelector(selectPage));
 
   useEffect(() => {
-    dispatch(setCurrentElementCount(tasks.length));
-  }, [tasks.length]);
+    dispatch(setCurrentElementCount(currentLength));
+  }, [currentLength]);
 
   return (
     <div className={styles.task_list}>
@@ -40,7 +44,10 @@ export default (): JSX.Element => {
 };
 
 // Filter tasks
-function filterTasks(tasks: Array<ITask>, filterSelector: TFilter) {
+function filterTasks(
+  tasks: Array<ITask>,
+  filterSelector: TFilter
+): Array<ITask> {
   if (filterSelector === "all") {
     return tasks;
   }
@@ -57,7 +64,7 @@ function filterTasks(tasks: Array<ITask>, filterSelector: TFilter) {
 }
 
 // Sort tasks
-function sortTasks(tasks: Array<ITask>, sortSelector: TSort) {
+function sortTasks(tasks: Array<ITask>, sortSelector: TSort): Array<ITask> {
   if (sortSelector === "down") {
     return tasks.sort((a, b) => a.timeStamp - b.timeStamp);
   }
@@ -71,4 +78,13 @@ function sortTasks(tasks: Array<ITask>, sortSelector: TSort) {
   }
 
   return tasks;
+}
+
+function pageTasks(tasks: Array<ITask>, page: number): Array<ITask> {
+  const minPointPage = page * 5 - 5;
+  const maxPointPage = page * 5 - 1;
+
+  return tasks.filter((element, index) => {
+    return index >= minPointPage && index <= maxPointPage;
+  });
 }
