@@ -1,53 +1,48 @@
 import styles from "./FilterComponent.module.scss";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { setFilter, selectFilter } from "../../features/order/orderSlice";
+import {
+  setFilter,
+  selectFilter,
+  TFilter,
+} from "../../features/order/orderSlice";
 
 export default (): JSX.Element => {
   const filterSelector = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
 
-  const { button_all: all, button_done: done, button_undone: undone } = styles;
-
-  const stylesFilter = {
-    all,
-    done,
-    undone,
-  };
-
-  const activatedFilter = {
-    all: " ",
-    done: " ",
-    undone: " ",
-  };
-
-  activatedFilter[filterSelector] += stylesFilter[filterSelector];
-
   return (
     <div className={styles.filter}>
-      <button
-        className={styles.button_3 + activatedFilter["all"]}
-        onClick={() => {
-          dispatch(setFilter("all"));
-        }}
-      >
-        All
-      </button>
-      <button
-        className={styles.button_3 + activatedFilter["done"]}
-        onClick={() => {
-          dispatch(setFilter("done"));
-        }}
-      >
-        Done
-      </button>
-      <button
-        className={styles.button_3 + activatedFilter["undone"]}
-        onClick={() => {
-          dispatch(setFilter("undone"));
-        }}
-      >
-        Undone
-      </button>
+      {createFilterButton("all", dispatch, filterSelector)}
+      {createFilterButton("done", dispatch, filterSelector)}
+      {createFilterButton("undone", dispatch, filterSelector)}
     </div>
   );
 };
+
+const { button_all: all, button_done: done, button_undone: undone } = styles;
+
+const stylesFilter = {
+  all,
+  done,
+  undone,
+};
+
+function createFilterButton(
+  currentFilter: TFilter,
+  dispatch: any,
+  activeFilter: TFilter
+) {
+  return (
+    <button
+      className={
+        styles.button_3 +
+        (currentFilter === activeFilter ? " " + stylesFilter[activeFilter] : "")
+      }
+      onClick={() => {
+        dispatch(setFilter(currentFilter));
+      }}
+    >
+      {currentFilter}
+    </button>
+  );
+}
