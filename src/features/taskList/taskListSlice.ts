@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-import { setPageCount } from "../../features/page/pageSlice";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-
 export interface ITask {
   id: string;
   text: String;

@@ -26,10 +26,6 @@ export const orderSlice = createSlice({
     setSort: (state, action: PayloadAction<TSort>) => {
       state.sort = action.payload;
     },
-
-    resultCount: (state, action: PayloadAction<number>) => {
-      state.resultCount = action.payload;
-    },
   },
 });
 
