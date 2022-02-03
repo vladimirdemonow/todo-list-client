@@ -3,7 +3,7 @@ import styles from "./PagesComponent.module.scss";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import {
   selectPageCount,
-  setPageCount,
+  selectPagePoint,
   setPagePoint,
 } from "../../features/page/pageSlice";
 
@@ -16,6 +16,7 @@ export default (): JSX.Element => {
   const pageArray: Array<JSX.Element> = [];
   const tasksCount: number = useAppSelector(selectTaskList).length;
   const pageCount = useAppSelector(selectPageCount);
+  const pagePointSelector = useAppSelector(selectPagePoint);
 
   const dispatch = useAppDispatch();
 
@@ -28,7 +29,10 @@ export default (): JSX.Element => {
   for (let i = 1; i <= pageCount; i++) {
     pageArray.push(
       <button
-        className={styles.buttonPages}
+        className={
+          styles.buttonPages +
+          (pagePointSelector === i ? " " + styles.button__active : "")
+        }
         key={"key" + i}
         onClick={() => dispatch(setPagePoint(i))}
       >
