@@ -17,25 +17,23 @@ export default (): JSX.Element => {
   const onInputTask = ({ key }: IInputKey) => {
     if (key === "Enter") {
       let { value } = inputTaskRef.current;
+      inputTaskRef.current.value = "";
 
-      if (value) {
-        inputTaskRef.current.value = "";
-
-        const [, month, number, year, time] = Date()
-          .toString()
-          .trim()
-          .split(" ");
-
-        dispatch(
-          createTask({
-            id: v4(),
-            text: value,
-            date: `${time} | ${number} ${month} ${year}`,
-            isCompleted: false,
-            timeStamp: Date.now(),
-          })
-        );
+      if (!value || value.length > 150) {
+        return;
       }
+
+      const [, month, number, year, time] = Date().toString().trim().split(" ");
+
+      dispatch(
+        createTask({
+          id: v4(),
+          text: value,
+          date: `${time} | ${number} ${month} ${year}`,
+          isCompleted: false,
+          timeStamp: Date.now(),
+        })
+      );
     }
 
     if (key === "Escape") {
