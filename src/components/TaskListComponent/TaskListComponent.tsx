@@ -1,11 +1,15 @@
 import styles from "./TaskListComponent.module.scss";
 import TaskComponent from "./TaskComponent/TaskComponent";
-import { AiOutlineCoffee } from "react-icons/ai";
+import { AiFillBulb, AiFillFire, AiOutlineCoffee } from "react-icons/ai";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectTaskList, ITask } from "../../features/taskList/taskListSlice";
 
-import { selectPagePoint, setPageCount } from "../../features/page/pageSlice";
+import {
+  selectPagePoint,
+  setPageCount,
+  setPagePoint,
+} from "../../features/page/pageSlice";
 
 import {
   TFilter,
@@ -34,6 +38,7 @@ export default (): JSX.Element => {
     setTasks(filteredTasks);
 
     dispatch(setPageCount(Math.ceil(filteredTasks.length / 5)));
+    dispatch(setPagePoint(1));
 
     let pagedTasks = pageTasks(filteredTasks, pagePointSelector);
 
@@ -63,6 +68,14 @@ export default (): JSX.Element => {
     return (
       <AiOutlineCoffee className={styles.default} size={100} opacity={0.2} />
     );
+  }
+
+  if (viewPage.length === 0 && filterSelector === "done") {
+    return <AiFillFire className={styles.default} size={100} opacity={0.2} />;
+  }
+
+  if (viewPage.length === 0 && filterSelector === "undone") {
+    return <AiFillBulb className={styles.default} size={100} opacity={0.2} />;
   }
 
   return (
