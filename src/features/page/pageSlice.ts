@@ -66,8 +66,8 @@ export const pageSlice = createSlice({
     setPageCount: (state, action: PayloadAction<number>) => {
       state.pageCount = action.payload;
 
-      if (state.pageCount < state.pagePoint) {
-        state.pagePoint = 1;
+      if (state.pageCount < state.pagePoint && state.pageCount > 1) {
+        state.pagePoint = state.pageCount;
       }
 
       if (state.pageCount > 5) {

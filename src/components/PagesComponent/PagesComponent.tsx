@@ -20,9 +20,12 @@ import {
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect, useState } from "react";
+import { IconType } from "react-icons/lib";
+
+const arrowSize = 42;
 
 export default (): JSX.Element => {
-  const pageCount = useAppSelector(selectPageCount);
+  const pageCountSelector = useAppSelector(selectPageCount);
   const pagePointSelector = useAppSelector(selectPagePoint);
 
   const pageViewStart = useAppSelector(selectPageViewStart);
@@ -31,6 +34,19 @@ export default (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const [pagesButtons, setPagesButtons] = useState([]);
+
+  let stepBackward: JSX.Element = <></>;
+  let caretLeft: JSX.Element = <></>;
+  let caretRight: JSX.Element = <></>;
+  let stepForward: JSX.Element = <></>;
+  const [pagesLeftArrows, setPagesLeftArrows] = useState([
+    stepBackward,
+    caretLeft,
+  ]);
+  const [pagesRightArrows, setPagesRightArrows] = useState([
+    caretRight,
+    stepForward,
+  ]);
 
   useEffect(() => {
     setPagesButtons(
@@ -41,42 +57,80 @@ export default (): JSX.Element => {
         pagePointSelector
       )
     );
-  }, [pageCount, pagePointSelector]);
 
-  if (pageCount < 2) {
+    if (pageViewEnd > 4) {
+      if (pageViewStart > 1) {
+        stepBackward = createPagesArrow(
+          AiFillStepBackward,
+          dispatch,
+          setPagePointStart,
+          arrowSize
+        );
+        caretLeft = createPagesArrow(
+          AiFillCaretLeft,
+          dispatch,
+          decrementPagePoint,
+          arrowSize
+        );
+
+        setPagesLeftArrows([stepBackward, caretLeft]);
+      } else {
+        setPagesLeftArrows([<></>, <></>]);
+      }
+
+      if (pageViewEnd < pageCountSelector) {
+        caretRight = createPagesArrow(
+          AiFillCaretRight,
+          dispatch,
+          incrementPagePoint,
+          arrowSize
+        );
+
+        stepForward = createPagesArrow(
+          AiFillStepForward,
+          dispatch,
+          setPagePointEnd,
+          arrowSize
+        );
+
+        setPagesRightArrows([caretRight, stepForward]);
+      } else {
+        setPagesRightArrows([<></>, <></>]);
+      }
+    } else {
+      setPagesLeftArrows([<></>, <></>]);
+      setPagesRightArrows([<></>, <></>]);
+    }
+  }, [pageCountSelector, pagePointSelector]);
+
+  if (pageCountSelector < 2) {
     return <></>;
   }
 
   return (
     <div className={styles.pages}>
-      <AiFillStepBackward
-        size={42}
-        onClick={() => {
-          dispatch(setPagePointStart());
-        }}
-      />
-      <AiFillCaretLeft
-        size={42}
-        onClick={() => {
-          dispatch(decrementPagePoint());
-        }}
-      />
-      {pagesButtons}
-      <AiFillCaretRight
-        size={42}
-        onClick={() => {
-          dispatch(incrementPagePoint());
-        }}
-      />
-      <AiFillStepForward
-        size={42}
-        onClick={() => {
-          dispatch(setPagePointEnd());
-        }}
-      />
+      <div className={styles.arrows__block}>{pagesLeftArrows}</div>
+      <div>{pagesButtons}</div>
+      <div className={styles.arrows__block}>{pagesRightArrows}</div>
     </div>
   );
 };
+
+function createPagesArrow(
+  IconElement: IconType,
+  dispatch: any,
+  action: any,
+  size: number
+): JSX.Element {
+  return (
+    <IconElement
+      size={size}
+      onClick={() => {
+        dispatch(action());
+      }}
+    />
+  );
+}
 
 function createPagesButtons(
   dispatch: any,
