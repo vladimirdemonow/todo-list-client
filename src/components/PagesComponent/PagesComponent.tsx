@@ -13,6 +13,7 @@ import {
   selectPagePoint,
   selectPageViewEnd,
   selectPageViewStart,
+  setPageCount,
   setPagePoint,
   setPagePointEnd,
   setPagePointStart,
@@ -21,12 +22,14 @@ import {
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect, useState } from "react";
 import { IconType } from "react-icons/lib";
+import { selectTaskList } from "../../features/taskList/taskListSlice";
 
 const arrowSize = 42;
 
 export default (): JSX.Element => {
   const pageCountSelector = useAppSelector(selectPageCount);
   const pagePointSelector = useAppSelector(selectPagePoint);
+  const taskListSelector = useAppSelector(selectTaskList);
 
   const pageViewStart = useAppSelector(selectPageViewStart);
   const pageViewEnd = useAppSelector(selectPageViewEnd);
@@ -102,6 +105,11 @@ export default (): JSX.Element => {
       setPagesRightArrows([<></>, <></>]);
     }
   }, [pageCountSelector, pagePointSelector]);
+
+  useEffect(() => {
+    const pageCount = Math.ceil(taskListSelector.length / 5);
+    dispatch(setPageCount(pageCount));
+  }, [taskListSelector]);
 
   if (pageCountSelector < 2) {
     return <></>;

@@ -30,8 +30,6 @@ export default (): JSX.Element => {
   const [viewPage, setViewPage] = useState(taskListSelector);
   const dispatch = useAppDispatch();
 
-  const pageCount = Math.ceil(tasks.length / 5);
-
   useEffect(() => {
     let filteredTasks = filterTasks(taskListSelector, filterSelector);
     setTasks(filteredTasks);
@@ -61,12 +59,12 @@ export default (): JSX.Element => {
   }, [taskListSelector]);
 
   useEffect(() => {
-    dispatch(setPageCount(pageCount));
+    dispatch(setPageCount(pageCountSelector));
 
-    if (pageCount < pagePointSelector && pageCount > 0) {
-      dispatch(setPagePoint(pageCount));
+    if (pageCountSelector < pagePointSelector && pageCountSelector > 0) {
+      dispatch(setPagePoint(pageCountSelector));
     }
-  }, [pageCount]);
+  }, [pageCountSelector]);
 
   return (
     <div className={styles.task_list}>
