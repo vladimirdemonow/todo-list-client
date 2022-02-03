@@ -11,24 +11,19 @@ export default (): JSX.Element => {
 
   return (
     <div className={styles.sort}>
-      {createSortButton("up", sortSelector, AiFillCaretUp, dispatch)}
-      {createSortButton("down", sortSelector, AiFillCaretDown, dispatch)}
+      {createSortButton(sortSelector, dispatch)}
     </div>
   );
 };
 
-function createSortButton(
-  currentSort: TSort,
-  activeSort: TSort,
-  Element: IconType,
-  dispatch: any
-) {
+function createSortButton(sortSelector: TSort, dispatch: any) {
+  const Element: IconType =
+    sortSelector === "up" ? AiFillCaretUp : AiFillCaretDown;
   return (
     <Element
       size={35}
-      color={activeSort === currentSort ? "green" : "black"}
       onClick={() => {
-        dispatch(setSort(currentSort));
+        dispatch(setSort(sortSelector === "up" ? "down" : "up"));
       }}
     />
   );

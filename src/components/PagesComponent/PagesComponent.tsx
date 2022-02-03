@@ -6,6 +6,8 @@ import {
   AiFillStepBackward,
   AiFillStepForward,
 } from "react-icons/ai";
+import { IconType } from "react-icons/lib";
+
 import {
   decrementPagePoint,
   incrementPagePoint,
@@ -21,8 +23,8 @@ import {
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect, useState } from "react";
-import { IconType } from "react-icons/lib";
 import { selectTaskList } from "../../features/taskList/taskListSlice";
+import { setFilter } from "../../features/order/orderSlice";
 
 const arrowSize = 42;
 
@@ -109,6 +111,11 @@ export default (): JSX.Element => {
   useEffect(() => {
     const pageCount = Math.ceil(taskListSelector.length / 5);
     dispatch(setPageCount(pageCount));
+    dispatch(setFilter("all"));
+
+    if (pageCountSelector < pagePointSelector && pageCountSelector > 0) {
+      dispatch(setPagePoint(pageCountSelector));
+    }
   }, [taskListSelector]);
 
   if (pageCountSelector < 2) {

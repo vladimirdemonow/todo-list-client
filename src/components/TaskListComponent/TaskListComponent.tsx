@@ -1,15 +1,11 @@
 import styles from "./TaskListComponent.module.scss";
 import TaskComponent from "./TaskComponent/TaskComponent";
+import { AiOutlineCoffee } from "react-icons/ai";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectTaskList, ITask } from "../../features/taskList/taskListSlice";
 
-import {
-  setPagePoint,
-  selectPagePoint,
-  selectPageCount,
-  setPageCount,
-} from "../../features/page/pageSlice";
+import { selectPagePoint, setPageCount } from "../../features/page/pageSlice";
 
 import {
   TFilter,
@@ -22,17 +18,22 @@ import { useEffect, useState } from "react";
 
 export default (): JSX.Element => {
   const taskListSelector = useAppSelector(selectTaskList);
+
   const filterSelector = useAppSelector(selectFilter);
   const sortSelector = useAppSelector(selectSort);
+
   const pagePointSelector = useAppSelector(selectPagePoint);
-  const pageCountSelector = useAppSelector(selectPageCount);
+
   const [tasks, setTasks] = useState(taskListSelector);
   const [viewPage, setViewPage] = useState(taskListSelector);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     let filteredTasks = filterTasks(taskListSelector, filterSelector);
     setTasks(filteredTasks);
+
+    dispatch(setPageCount(Math.ceil(filteredTasks.length / 5)));
 
     let pagedTasks = pageTasks(filteredTasks, pagePointSelector);
 
@@ -58,13 +59,11 @@ export default (): JSX.Element => {
     setTasks(taskListSelector);
   }, [taskListSelector]);
 
-  useEffect(() => {
-    dispatch(setPageCount(pageCountSelector));
-
-    if (pageCountSelector < pagePointSelector && pageCountSelector > 0) {
-      dispatch(setPagePoint(pageCountSelector));
-    }
-  }, [pageCountSelector]);
+  if (taskListSelector.length === 0) {
+    return (
+      <AiOutlineCoffee className={styles.default} size={100} opacity={0.2} />
+    );
+  }
 
   return (
     <div className={styles.task_list}>

@@ -6,13 +6,11 @@ export type TSort = "up" | "down" | "default";
 
 export interface IOrderState {
   filter: TFilter;
-  resultCount: number;
   sort: TSort;
 }
 
 const initialState: IOrderState = {
   filter: "all",
-  resultCount: 0,
   sort: "default",
 };
 
@@ -33,6 +31,5 @@ export const { setFilter, setSort } = orderSlice.actions;
 
 export const selectFilter = (state: RootState) => state.order.filter;
 export const selectSort = (state: RootState) => state.order.sort;
-export const selectResultCount = (state: RootState) => state.order.resultCount;
 
 export default orderSlice.reducer;
