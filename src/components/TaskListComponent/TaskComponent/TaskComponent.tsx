@@ -1,6 +1,9 @@
 import styles from "./TaskComponent.module.scss";
-import { AiFillDelete } from "react-icons/ai";
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import {
+  AiFillDelete,
+  AiOutlineBorder,
+  AiOutlineDownSquare,
+} from "react-icons/ai";
 
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 import {
@@ -26,16 +29,7 @@ export default (props: TaskElementProps): JSX.Element => {
 
   return (
     <div className={styles.task + activeColor}>
-      <AiOutlineCheckCircle
-        size={30}
-        onClick={() => {
-          dispatch(
-            props.isCompleted
-              ? uncompleteTask(props.id)
-              : completeTask(props.id)
-          );
-        }}
-      />
+      {createCheckButton(props.isCompleted, dispatch, props.id)}
       <div className={styles.task__text}>{taskTextArray}</div>
       <div className={styles.task__date}>{props.date}</div>
       <AiFillDelete
@@ -47,6 +41,23 @@ export default (props: TaskElementProps): JSX.Element => {
     </div>
   );
 };
+
+function createCheckButton(
+  isCompleted: boolean,
+  dispatch: any,
+  id: string
+): JSX.Element {
+  let Element = isCompleted ? AiOutlineDownSquare : AiOutlineBorder;
+
+  return (
+    <Element
+      size={30}
+      onClick={() =>
+        dispatch(isCompleted ? uncompleteTask(id) : completeTask(id))
+      }
+    ></Element>
+  );
+}
 
 function createDividedString(text: String): Array<JSX.Element> {
   const taskTextArray = [];
