@@ -52,20 +52,12 @@ export default (): JSX.Element => {
   }, [sortSelector]);
 
   useEffect(() => {
-    try {
-      setViewPage(pageTasks(tasks, pagePointSelector));
-    } catch (error) {
-      console.log(error);
-    }
+    setViewPage(pageTasks(tasks, pagePointSelector));
   }, [pagePointSelector]);
 
   useEffect(() => {
-    try {
-      setViewPage(pageTasks(taskListSelector, pagePointSelector));
-      setTasks(taskListSelector);
-    } catch (error) {
-      console.log(error);
-    }
+    setViewPage(pageTasks(taskListSelector, pagePointSelector));
+    setTasks(taskListSelector);
   }, [taskListSelector]);
 
   useEffect(() => {

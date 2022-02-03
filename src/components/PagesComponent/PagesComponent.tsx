@@ -1,55 +1,90 @@
 import styles from "./PagesComponent.module.scss";
 
-import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import {
+  AiFillCaretLeft,
+  AiFillCaretRight,
+  AiFillStepBackward,
+  AiFillStepForward,
+} from "react-icons/ai";
+import {
+  decrementPagePoint,
+  incrementPagePoint,
   selectPageCount,
   selectPagePoint,
   setPagePoint,
+  setPagePointEnd,
+  setPagePointStart,
 } from "../../features/page/pageSlice";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectTaskList } from "../../features/taskList/taskListSlice";
-import { useEffect } from "react";
-// import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default (): JSX.Element => {
-  const pageArray: Array<JSX.Element> = [];
-  const tasksCount: number = useAppSelector(selectTaskList).length;
   const pageCount = useAppSelector(selectPageCount);
   const pagePointSelector = useAppSelector(selectPagePoint);
 
   const dispatch = useAppDispatch();
 
-  if (tasksCount < 6) {
+  const [pagesButtons, setPagesButtons] = useState([]);
+
+  useEffect(() => {
+    setPagesButtons(createPagesButtons(dispatch, pageCount, pagePointSelector));
+  }, [pageCount, pagePointSelector]);
+
+  if (pageCount < 2) {
     return <></>;
   }
 
-  // CANT USE EFFECT: uncaught Error: Rendered more hooks than during the previous render.
-  // This cicle is not cause of this problem
-  for (let i = 1; i <= pageCount; i++) {
+  return (
+    <div className={styles.pages}>
+      <AiFillStepBackward
+        size={42}
+        onClick={() => {
+          dispatch(setPagePointStart());
+        }}
+      />
+      <AiFillCaretLeft
+        size={42}
+        onClick={() => {
+          dispatch(decrementPagePoint());
+        }}
+      />
+      {pagesButtons}
+      <AiFillCaretRight
+        size={42}
+        onClick={() => {
+          dispatch(incrementPagePoint());
+        }}
+      />
+      <AiFillStepForward
+        size={42}
+        onClick={() => {
+          dispatch(setPagePointEnd());
+        }}
+      />
+    </div>
+  );
+};
+
+function createPagesButtons(
+  dispatch: any,
+  pageCount: number,
+  pagePointSelector: number
+): any {
+  const pageArray = [];
+  for (let index = 1; index <= pageCount; index++) {
     pageArray.push(
       <button
         className={
           styles.buttonPages +
-          (pagePointSelector === i ? " " + styles.button__active : "")
+          (pagePointSelector === index ? " " + styles.button__active : "")
         }
-        key={"key" + i}
-        onClick={() => dispatch(setPagePoint(i))}
+        key={"key" + index}
+        onClick={() => dispatch(setPagePoint(index))}
       >
-        {i}
+        {index}
       </button>
     );
   }
-
-  // useEffect(() => {
-  //   dispatch(setPageCount(pageCount));
-  // }, [pageCount]);
-
-  return (
-    <div className={styles.pages}>
-      <AiFillCaretLeft size={42} />
-      {pageArray}
-      <AiFillCaretRight size={42} />
-    </div>
-  );
-};
+  return pageArray;
+}
