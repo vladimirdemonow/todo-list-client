@@ -11,6 +11,8 @@ import {
   incrementPagePoint,
   selectPageCount,
   selectPagePoint,
+  selectPageViewEnd,
+  selectPageViewStart,
   setPagePoint,
   setPagePointEnd,
   setPagePointStart,
@@ -23,12 +25,22 @@ export default (): JSX.Element => {
   const pageCount = useAppSelector(selectPageCount);
   const pagePointSelector = useAppSelector(selectPagePoint);
 
+  const pageViewStart = useAppSelector(selectPageViewStart);
+  const pageViewEnd = useAppSelector(selectPageViewEnd);
+
   const dispatch = useAppDispatch();
 
   const [pagesButtons, setPagesButtons] = useState([]);
 
   useEffect(() => {
-    setPagesButtons(createPagesButtons(dispatch, pageCount, pagePointSelector));
+    setPagesButtons(
+      createPagesButtons(
+        dispatch,
+        pageViewStart,
+        pageViewEnd,
+        pagePointSelector
+      )
+    );
   }, [pageCount, pagePointSelector]);
 
   if (pageCount < 2) {
@@ -68,11 +80,12 @@ export default (): JSX.Element => {
 
 function createPagesButtons(
   dispatch: any,
-  pageCount: number,
+  pageViewStart: number,
+  pageViewEnd: number,
   pagePointSelector: number
 ): any {
   const pageArray = [];
-  for (let index = 1; index <= pageCount; index++) {
+  for (let index = pageViewStart; index <= pageViewEnd; index++) {
     pageArray.push(
       <button
         className={
