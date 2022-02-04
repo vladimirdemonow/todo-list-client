@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import { useAppDispatch } from "../app/hooks";
 import { setModal } from "../features/modal/modalSlice";
+import styles from './EditTaskModal.module.scss' // not work
 
 
 const customStyles = {
@@ -21,13 +22,14 @@ export default function EditTaskModal() {
   let subtitle;
 
   const dispatch = useAppDispatch()
+  const inputRef = useRef()
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
   function afterOpenModal() {
   }
 
-  function closeModal() {
+  function closeModal(causeClose) {
     setIsOpen(false);
     dispatch(setModal('absolute'))
   }
@@ -40,17 +42,11 @@ export default function EditTaskModal() {
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Minimal Modal Example"
-      >
-        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>
-        <button onClick={closeModal}>close</button>
-        <div>I am a modal</div>
-        <form>
-          <input />
-          <button>tab navigation</button>
-          <button>stays</button>
-          <button>inside</button>
-          <button>the modal</button>
-        </form>
+        ariaHideApp={false}
+        >
+        <input autoFocus ref={inputRef} className={styles.edit_task__modal} onKeyPressCapture={(e) => {
+          if(e.key === 'Escape' || e.key === 'Enter') closeModal(e.key)
+      }} />
       </Modal>
     </div>
   );

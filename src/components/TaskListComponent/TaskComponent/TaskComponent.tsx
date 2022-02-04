@@ -13,7 +13,7 @@ import {
 } from "../../../features/taskList/taskListSlice";
 import { useEffect, useState } from "react";
 import EditTaskModal from "../../../modals/EditTaskModal";
-import { selectModal, setModal } from "../../../features/modal/modalSlice";
+import { selectModalState, setModal } from "../../../features/modal/modalSlice";
 
 interface TaskElementProps {
   key: string;
@@ -25,7 +25,7 @@ interface TaskElementProps {
 
 export default (props: TaskElementProps): JSX.Element => {
   const dispatch = useAppDispatch();
-  const modalSelector = useAppSelector(selectModal);
+  const modalSelector = useAppSelector(selectModalState);
   const [isShowEditTaskModal, setShowEditTaskModal] = useState(false);
 
   const taskTextArray = createDividedString(props.text);
@@ -39,7 +39,9 @@ export default (props: TaskElementProps): JSX.Element => {
   return !isShowEditTaskModal ? (
     <div
       className={styles.task + activeColor}
-      onClick={() => {
+      onClick={(e: any) => {
+        if (e.target.nodeName === "path" || e.target.nodeName === "svg") return;
+
         dispatch(setModal("edit-task"));
       }}
     >

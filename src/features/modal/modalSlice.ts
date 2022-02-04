@@ -4,11 +4,13 @@ import { RootState } from "../../app/store";
 export type TModal = "absolute" | "edit-task";
 
 export interface IModal {
-  modal: TModal;
+  modalState: TModal;
+  currentTaskID: string;
 }
 
 const initialState: IModal = {
-  modal: "absolute",
+  modalState: "absolute",
+  currentTaskID: "",
 };
 
 export const modalSlice = createSlice({
@@ -16,13 +18,18 @@ export const modalSlice = createSlice({
   initialState,
   reducers: {
     setModal: (state, action: PayloadAction<TModal>) => {
-      state.modal = action.payload;
+      state.modalState = action.payload;
+    },
+    setCurrentTask: (state, action: PayloadAction<string>) => {
+      state.currentTaskID = action.payload;
     },
   },
 });
 
-export const { setModal } = modalSlice.actions;
+export const { setModal, setCurrentTask } = modalSlice.actions;
 
-export const selectModal = (state: RootState) => state.modal.modal;
+export const selectModalState = (state: RootState) => state.modal.modalState;
+export const selectCurrentTask = (state: RootState) =>
+  state.modal.currentTaskID;
 
 export default modalSlice.reducer;
