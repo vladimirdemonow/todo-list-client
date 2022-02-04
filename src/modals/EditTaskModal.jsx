@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import Modal from "react-modal";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { selectCurrentTaskID, setAbsoluteModal } from "../features/slices/modalSlice";
@@ -28,15 +28,10 @@ export default function EditTaskModal() {
 
 
   function afterOpenModal() {
-    inputRef.current.value = taskListSelector.find((element) => {
-      if(element.id === currentTaskID) {
-        return true
-      }
-    }).text
+    inputRef.current.value = taskListSelector.find((element) => element.id === currentTaskID).text
   }
 
   function closeModal(causeClose) {
-
     if(causeClose === 'Enter') {
       dispatch(changeTask({text: inputRef.current.value, id: currentTaskID }))
     }
@@ -50,8 +45,7 @@ export default function EditTaskModal() {
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Minimal Modal Example"
-        ariaHideApp={false}
+        ariaHideApp={false} // For stop log errors of this modal
         >
         <input autoFocus ref={inputRef} className={styles.edit_task__modal} onKeyPressCapture={(e) => {
           if(e.key === 'Escape' || e.key === 'Enter') closeModal(e.key)
