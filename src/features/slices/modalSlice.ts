@@ -17,19 +17,20 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    setModal: (state, action: PayloadAction<TModal>) => {
-      state.modalState = action.payload;
+    setAbsoluteModal: (state) => {
+      state.modalState = "absolute";
     },
-    setCurrentTask: (state, action: PayloadAction<string>) => {
+    setEditTaskModal: (state, action: PayloadAction<string>) => {
       state.currentTaskID = action.payload;
+      state.modalState = "edit-task";
     },
   },
 });
 
-export const { setModal, setCurrentTask } = modalSlice.actions;
+export const { setAbsoluteModal, setEditTaskModal } = modalSlice.actions;
 
 export const selectModalState = (state: RootState) => state.modal.modalState;
-export const selectCurrentTask = (state: RootState) =>
+export const selectCurrentTaskID = (state: RootState) =>
   state.modal.currentTaskID;
 
 export default modalSlice.reducer;

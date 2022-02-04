@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import EditTaskModal from "../../../modals/EditTaskModal";
 import {
   selectModalState,
-  setModal,
+  setEditTaskModal,
 } from "../../../features/slices/modalSlice";
 
 interface TaskElementProps {
@@ -45,7 +45,7 @@ export default (props: TaskElementProps): JSX.Element => {
       onClick={(e: any) => {
         if (e.target.nodeName === "path" || e.target.nodeName === "svg") return;
 
-        dispatch(setModal("edit-task"));
+        dispatch(setEditTaskModal(props.id));
       }}
     >
       {createCheckButton(props.isCompleted, dispatch, props.id)}

@@ -22,6 +22,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { IconType } from "react-icons/lib";
+import { selectModalState } from "../../features/slices/modalSlice";
 
 export default (): JSX.Element => {
   const taskListSelector = useAppSelector(selectTaskList);
@@ -30,6 +31,8 @@ export default (): JSX.Element => {
   const sortSelector = useAppSelector(selectSort);
 
   const pagePointSelector = useAppSelector(selectPagePoint);
+
+  const modalStateSelector = useAppSelector(selectModalState);
 
   const [tasks, setTasks] = useState(taskListSelector);
   const [viewPage, setViewPage] = useState(taskListSelector);
@@ -71,11 +74,9 @@ export default (): JSX.Element => {
     <div
       className={styles.task_list}
       onWheel={(e) => {
-        if (e.deltaY > 0) {
-          dispatch(incrementPagePoint());
-        } else {
-          dispatch(decrementPagePoint());
-        }
+        if (modalStateSelector === "edit-task") return;
+
+        dispatch(e.deltaY > 0 ? incrementPagePoint() : decrementPagePoint());
       }}
     >
       {viewPage.length !== 0

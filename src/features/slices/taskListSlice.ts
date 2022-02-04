@@ -13,6 +13,11 @@ export interface ITaskListState {
   tasks: Array<ITask>;
 }
 
+export interface IChangeTaskPayload {
+  id: string;
+  text: string;
+}
+
 const initialState: ITaskListState = {
   tasks: [],
 };
@@ -44,11 +49,25 @@ export const taskListSlice = createSlice({
         return element.id === action.payload ? false : true;
       });
     },
+    changeTask: (state, action: PayloadAction<IChangeTaskPayload>) => {
+      state.tasks = state.tasks.map((element) => {
+        if (element.id === action.payload.id) {
+          element.text = action.payload.text;
+        }
+
+        return element;
+      });
+    },
   },
 });
 
-export const { createTask, completeTask, uncompleteTask, deleteTask } =
-  taskListSlice.actions;
+export const {
+  createTask,
+  completeTask,
+  uncompleteTask,
+  deleteTask,
+  changeTask,
+} = taskListSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
