@@ -6,6 +6,8 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectTaskList, ITask } from "../../features/slices/taskListSlice";
 
 import {
+  decrementPagePoint,
+  incrementPagePoint,
   selectPagePoint,
   setPageCount,
   setPagePoint,
@@ -66,7 +68,16 @@ export default (): JSX.Element => {
   }, [taskListSelector]);
 
   return (
-    <div className={styles.task_list}>
+    <div
+      className={styles.task_list}
+      onWheel={(e) => {
+        if (e.deltaY > 0) {
+          dispatch(incrementPagePoint());
+        } else {
+          dispatch(decrementPagePoint());
+        }
+      }}
+    >
       {viewPage.length !== 0
         ? viewPage.map((element) => (
             <TaskComponent
