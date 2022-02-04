@@ -3,20 +3,20 @@ import TaskComponent from "./TaskComponent/TaskComponent";
 import { AiFillBulb, AiFillFire, AiOutlineCoffee } from "react-icons/ai";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectTaskList, ITask } from "../../features/taskList/taskListSlice";
+import { selectTaskList, ITask } from "../../features/slices/taskListSlice";
 
 import {
   selectPagePoint,
   setPageCount,
   setPagePoint,
-} from "../../features/page/pageSlice";
+} from "../../features/slices/pageSlice";
 
 import {
   TFilter,
   TSort,
   selectFilter,
   selectSort,
-} from "../../features/order/orderSlice";
+} from "../../features/slices/orderSlice";
 
 import { useEffect, useState } from "react";
 import { IconType } from "react-icons/lib";

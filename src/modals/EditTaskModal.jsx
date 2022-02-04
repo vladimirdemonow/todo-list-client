@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import { useAppDispatch } from "../app/hooks";
-import { setModal } from "../features/modal/modalSlice";
+import { setModal } from "../features/slices/modalSlice";
 import styles from './EditTaskModal.module.scss' // not work
 
 

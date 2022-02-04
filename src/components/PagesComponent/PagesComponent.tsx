@@ -19,12 +19,12 @@ import {
   setPagePoint,
   setPagePointEnd,
   setPagePointStart,
-} from "../../features/page/pageSlice";
+} from "../../features/slices/pageSlice";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect, useState } from "react";
-import { selectTaskList } from "../../features/taskList/taskListSlice";
-import { setFilter } from "../../features/order/orderSlice";
+import { selectTaskList } from "../../features/slices/taskListSlice";
+import { setFilter } from "../../features/slices/orderSlice";
 
 const arrowSize = 42;
 

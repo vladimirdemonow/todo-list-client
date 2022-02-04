@@ -4,7 +4,7 @@ import {
   setFilter,
   selectFilter,
   TFilter,
-} from "../../features/order/orderSlice";
+} from "../../features/slices/orderSlice";
 
 export default (): JSX.Element => {
   const filterSelector = useAppSelector(selectFilter);

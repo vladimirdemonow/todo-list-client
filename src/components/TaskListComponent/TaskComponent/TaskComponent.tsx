@@ -10,10 +10,13 @@ import {
   completeTask,
   uncompleteTask,
   deleteTask,
-} from "../../../features/taskList/taskListSlice";
+} from "../../../features/slices/taskListSlice";
 import { useEffect, useState } from "react";
 import EditTaskModal from "../../../modals/EditTaskModal";
-import { selectModalState, setModal } from "../../../features/modal/modalSlice";
+import {
+  selectModalState,
+  setModal,
+} from "../../../features/slices/modalSlice";
 
 interface TaskElementProps {
   key: string;
