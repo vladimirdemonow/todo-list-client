@@ -29,11 +29,17 @@ export default function EditTaskModal() {
 
   const dispatch = useAppDispatch()
   const currentTaskID = useAppSelector(selectCurrentTaskID)
+  const taskListSelector = useAppSelector(selectTaskList)
   const inputRef = useRef()
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
   function afterOpenModal() {
+    inputRef.current.value = taskListSelector.find((element) => {
+      if(element.id === currentTaskID) {
+        return true
+      }
+    }).text
   }
 
   function closeModal(causeClose) {
