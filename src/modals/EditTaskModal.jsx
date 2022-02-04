@@ -1,13 +1,8 @@
 import React, { useRef } from "react";
-import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { selectCurrentTaskID, setAbsoluteModal } from "../features/slices/modalSlice";
 import { changeTask, selectTaskList } from "../features/slices/taskListSlice";
-
-
-
-
 
 import styles from './EditTaskModal.module.scss'
 
@@ -25,14 +20,12 @@ const customStyles = {
 
 
 export default function EditTaskModal() {
-  let subtitle;
 
   const dispatch = useAppDispatch()
   const currentTaskID = useAppSelector(selectCurrentTaskID)
   const taskListSelector = useAppSelector(selectTaskList)
   const inputRef = useRef()
 
-  const [modalIsOpen, setIsOpen] = React.useState(false);
 
   function afterOpenModal() {
     inputRef.current.value = taskListSelector.find((element) => {
@@ -44,17 +37,10 @@ export default function EditTaskModal() {
 
   function closeModal(causeClose) {
 
-    if(causeClose !== 'Enter') {
-      setIsOpen(false);
-      dispatch(setAbsoluteModal())
-      return
+    if(causeClose === 'Enter') {
+      dispatch(changeTask({text: inputRef.current.value, id: currentTaskID }))
     }
-
-    dispatch(changeTask({text: inputRef.current.value, id: currentTaskID }))
-
-    setIsOpen(false);
     dispatch(setAbsoluteModal())
-
   }
 
   return (
