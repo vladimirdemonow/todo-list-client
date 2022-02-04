@@ -19,6 +19,7 @@ import {
 } from "../../features/order/orderSlice";
 
 import { useEffect, useState } from "react";
+import { IconType } from "react-icons/lib";
 
 export default (): JSX.Element => {
   const taskListSelector = useAppSelector(selectTaskList);
@@ -64,34 +65,34 @@ export default (): JSX.Element => {
     setTasks(taskListSelector);
   }, [taskListSelector]);
 
-  if (taskListSelector.length === 0) {
-    return (
-      <AiOutlineCoffee className={styles.default} size={100} opacity={0.2} />
-    );
-  }
-
-  if (viewPage.length === 0 && filterSelector === "done") {
-    return <AiFillFire className={styles.default} size={100} opacity={0.2} />;
-  }
-
-  if (viewPage.length === 0 && filterSelector === "undone") {
-    return <AiFillBulb className={styles.default} size={100} opacity={0.2} />;
-  }
-
   return (
     <div className={styles.task_list}>
-      {viewPage.map((element) => (
-        <TaskComponent
-          key={element.id}
-          text={element.text}
-          date={element.date}
-          id={element.id}
-          isCompleted={element.isCompleted}
-        />
-      ))}
+      {viewPage.length !== 0
+        ? viewPage.map((element) => (
+            <TaskComponent
+              key={element.id}
+              text={element.text}
+              date={element.date}
+              id={element.id}
+              isCompleted={element.isCompleted}
+            />
+          ))
+        : createDefaultImage(filterSelector)}
     </div>
   );
 };
+
+// Images on Empty pages
+const defaultImages = {
+  all: AiOutlineCoffee,
+  done: AiFillFire,
+  undone: AiFillBulb,
+};
+
+function createDefaultImage(filterSelector: TFilter): JSX.Element {
+  const Element = defaultImages[filterSelector];
+  return <Element className={styles.default} size={100} opacity={0.2} />;
+}
 
 // Filter tasks
 function filterTasks(
