@@ -69,13 +69,15 @@ export default (): JSX.Element => {
           AiFillStepBackward,
           dispatch,
           setPagePointStart,
-          arrowSize
+          arrowSize,
+          true
         );
         caretLeft = createPagesArrow(
           AiFillCaretLeft,
           dispatch,
           decrementPagePoint,
-          arrowSize
+          arrowSize,
+          false
         );
 
         setPagesLeftArrows([stepBackward, caretLeft]);
@@ -88,14 +90,16 @@ export default (): JSX.Element => {
           AiFillCaretRight,
           dispatch,
           incrementPagePoint,
-          arrowSize
+          arrowSize,
+          false
         );
 
         stepForward = createPagesArrow(
           AiFillStepForward,
           dispatch,
           setPagePointEnd,
-          arrowSize
+          arrowSize,
+          true
         );
 
         setPagesRightArrows([caretRight, stepForward]);
@@ -124,9 +128,13 @@ export default (): JSX.Element => {
 
   return (
     <div className={styles.pages}>
-      <div className={styles.arrows__block}>{pagesLeftArrows}</div>
+      <div className={styles.arrows__block + " " + styles.arrow__left}>
+        {pagesLeftArrows}
+      </div>
       <div>{pagesButtons}</div>
-      <div className={styles.arrows__block}>{pagesRightArrows}</div>
+      <div className={styles.arrows__block + " " + styles.arrow__right}>
+        {pagesRightArrows}
+      </div>
     </div>
   );
 };
@@ -135,15 +143,18 @@ function createPagesArrow(
   IconElement: IconType,
   dispatch: any,
   action: any,
-  size: number
+  size: number,
+  isArrowToEnd: boolean
 ): JSX.Element {
   return (
-    <IconElement
-      size={size}
+    <div
+      className={!isArrowToEnd ? styles.arrow__step : styles.arrow__end}
       onClick={() => {
         dispatch(action());
       }}
-    />
+    >
+      <IconElement size={size} opacity={0.5} />
+    </div>
   );
 }
 

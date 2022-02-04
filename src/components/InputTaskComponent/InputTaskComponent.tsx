@@ -48,6 +48,7 @@ export default (): JSX.Element => {
         ref={inputTaskRef}
         onKeyDownCapture={onInputTask}
         className={styles.form__field}
+        placeholder="new task"
         name="name"
         id="name"
       />
