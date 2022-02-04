@@ -19,7 +19,7 @@ export default (): JSX.Element => {
       let { value } = inputTaskRef.current;
       inputTaskRef.current.value = "";
 
-      if (!value || value.length > 150) {
+      if (!value || value.length > 100) {
         return;
       }
 

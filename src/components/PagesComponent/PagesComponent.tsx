@@ -40,19 +40,22 @@ export default (): JSX.Element => {
 
   const [pagesButtons, setPagesButtons] = useState([]);
 
+  // For 'explain to useState' this elements is JSX.Element :)
   let stepBackward: JSX.Element = <></>;
   let caretLeft: JSX.Element = <></>;
-  let caretRight: JSX.Element = <></>;
-  let stepForward: JSX.Element = <></>;
   const [pagesLeftArrows, setPagesLeftArrows] = useState([
     stepBackward,
     caretLeft,
   ]);
+
+  let caretRight: JSX.Element = <></>;
+  let stepForward: JSX.Element = <></>;
   const [pagesRightArrows, setPagesRightArrows] = useState([
     caretRight,
     stepForward,
   ]);
 
+  // in this useEffect maybe pageCountSelector and pagePointSelector control can be divided to two diffents useEffect for optimization
   useEffect(() => {
     setPagesButtons(
       createPagesButtons(
@@ -112,6 +115,7 @@ export default (): JSX.Element => {
     }
   }, [pageCountSelector, pagePointSelector]);
 
+  // set taskListSelector to useEffect controller is not best solution
   useEffect(() => {
     const pageCount = Math.ceil(taskListSelector.length / 5);
     dispatch(setPageCount(pageCount));

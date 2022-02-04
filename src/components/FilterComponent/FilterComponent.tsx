@@ -35,12 +35,10 @@ function createFilterButton(
   return (
     <button
       className={
-        styles.button_3 +
+        styles.button +
         (currentFilter === activeFilter ? " " + stylesFilter[activeFilter] : "")
       }
-      onClick={() => {
-        dispatch(setFilter(currentFilter));
-      }}
+      onClick={() => dispatch(setFilter(currentFilter))}
     >
       {currentFilter}
     </button>

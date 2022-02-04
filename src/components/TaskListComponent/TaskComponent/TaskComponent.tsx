@@ -76,7 +76,7 @@ function createCheckButton(
       onClick={() =>
         dispatch(isCompleted ? uncompleteTask(id) : completeTask(id))
       }
-    ></Element>
+    />
   );
 }
 

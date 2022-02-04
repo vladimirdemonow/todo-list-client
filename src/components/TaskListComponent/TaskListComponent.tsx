@@ -21,7 +21,6 @@ import {
 } from "../../features/slices/orderSlice";
 
 import { useEffect, useState } from "react";
-import { IconType } from "react-icons/lib";
 import { selectModalState } from "../../features/slices/modalSlice";
 
 export default (): JSX.Element => {
@@ -106,7 +105,6 @@ function createDefaultImage(filterSelector: TFilter): JSX.Element {
   return <Element className={styles.default} size={100} opacity={0.2} />;
 }
 
-// Filter tasks
 function filterTasks(
   tasks: Array<ITask>,
   filterSelector: TFilter
@@ -126,7 +124,6 @@ function filterTasks(
   return tasks;
 }
 
-// Sort tasks
 function sortTasks(tasks: Array<ITask>, sortSelector: TSort): Array<ITask> {
   if (sortSelector === "down") {
     return tasks.sort((a, b) => a.timeStamp - b.timeStamp);
@@ -143,7 +140,6 @@ function sortTasks(tasks: Array<ITask>, sortSelector: TSort): Array<ITask> {
   return tasks;
 }
 
-// Set tasks on current page
 function pageTasks(tasks: Array<ITask>, page: number): Array<ITask> {
   const minPointPage = page * 5 - 5;
   const maxPointPage = page * 5 - 1;
