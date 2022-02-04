@@ -11,6 +11,9 @@ import {
   uncompleteTask,
   deleteTask,
 } from "../../../features/taskList/taskListSlice";
+import { useEffect, useState } from "react";
+import EditTaskModal from "../../../modals/EditTaskModal";
+import { selectModal, setModal } from "../../../features/modal/modalSlice";
 
 interface TaskElementProps {
   key: string;
@@ -22,13 +25,24 @@ interface TaskElementProps {
 
 export default (props: TaskElementProps): JSX.Element => {
   const dispatch = useAppDispatch();
+  const modalSelector = useAppSelector(selectModal);
+  const [isShowEditTaskModal, setShowEditTaskModal] = useState(false);
 
   const taskTextArray = createDividedString(props.text);
 
   const activeColor = props.isCompleted ? " " + styles.task__completed : " ";
 
-  return (
-    <div className={styles.task + activeColor}>
+  useEffect(() => {
+    setShowEditTaskModal(modalSelector === "edit-task");
+  }, [modalSelector]);
+
+  return !isShowEditTaskModal ? (
+    <div
+      className={styles.task + activeColor}
+      onClick={() => {
+        dispatch(setModal("edit-task"));
+      }}
+    >
       {createCheckButton(props.isCompleted, dispatch, props.id)}
       <div className={styles.task__text}>{taskTextArray}</div>
       <div className={styles.task__date}>{props.date}</div>
@@ -39,6 +53,8 @@ export default (props: TaskElementProps): JSX.Element => {
         }}
       />
     </div>
+  ) : (
+    <EditTaskModal />
   );
 };
 
