@@ -21,12 +21,11 @@ import {
   setPagePointStart,
 } from "../../features/slices/pageSlice";
 
+import ArrowsPagesComponent from "../ArrowsPagesComponent/ArrowsPagesComponent";
+
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect, useState } from "react";
 import { selectTaskList } from "../../features/slices/taskListSlice";
-import { setFilter } from "../../features/slices/orderSlice";
-
-const arrowSize = 42;
 
 export default (): JSX.Element => {
   const pageCountSelector = useAppSelector(selectPageCount);
@@ -40,21 +39,6 @@ export default (): JSX.Element => {
 
   const [pagesButtons, setPagesButtons] = useState([]);
 
-  // For 'explain to useState' this elements is JSX.Element :)
-  let stepBackward: JSX.Element = <></>;
-  let caretLeft: JSX.Element = <></>;
-  const [pagesLeftArrows, setPagesLeftArrows] = useState([
-    stepBackward,
-    caretLeft,
-  ]);
-
-  let caretRight: JSX.Element = <></>;
-  let stepForward: JSX.Element = <></>;
-  const [pagesRightArrows, setPagesRightArrows] = useState([
-    caretRight,
-    stepForward,
-  ]);
-
   // in this useEffect maybe pageCountSelector and pagePointSelector control can be divided to two diffents useEffect for optimization
   useEffect(() => {
     setPagesButtons(
@@ -65,61 +49,12 @@ export default (): JSX.Element => {
         pagePointSelector
       )
     );
-
-    if (pageViewEnd > 4) {
-      if (pageViewStart > 1) {
-        stepBackward = createPagesArrow(
-          AiFillStepBackward,
-          dispatch,
-          setPagePointStart,
-          arrowSize,
-          true
-        );
-        caretLeft = createPagesArrow(
-          AiFillCaretLeft,
-          dispatch,
-          decrementPagePoint,
-          arrowSize,
-          false
-        );
-
-        setPagesLeftArrows([stepBackward, caretLeft]);
-      } else {
-        setPagesLeftArrows([<></>, <></>]);
-      }
-
-      if (pageViewEnd < pageCountSelector) {
-        caretRight = createPagesArrow(
-          AiFillCaretRight,
-          dispatch,
-          incrementPagePoint,
-          arrowSize,
-          false
-        );
-
-        stepForward = createPagesArrow(
-          AiFillStepForward,
-          dispatch,
-          setPagePointEnd,
-          arrowSize,
-          true
-        );
-
-        setPagesRightArrows([caretRight, stepForward]);
-      } else {
-        setPagesRightArrows([<></>, <></>]);
-      }
-    } else {
-      setPagesLeftArrows([<></>, <></>]);
-      setPagesRightArrows([<></>, <></>]);
-    }
   }, [pageCountSelector, pagePointSelector]);
 
   // set taskListSelector to useEffect controller is not best solution
   useEffect(() => {
     const pageCount = Math.ceil(taskListSelector.length / 5);
     dispatch(setPageCount(pageCount));
-    // dispatch(setFilter("all"));
 
     if (pageCountSelector < pagePointSelector && pageCountSelector > 0) {
       dispatch(setPagePoint(pageCountSelector));
@@ -132,35 +67,12 @@ export default (): JSX.Element => {
 
   return (
     <div className={styles.pages}>
-      <div className={styles.arrows__block + " " + styles.arrow__left}>
-        {pagesLeftArrows}
-      </div>
+      <ArrowsPagesComponent direction={"left"} />
       <div>{pagesButtons}</div>
-      <div className={styles.arrows__block + " " + styles.arrow__right}>
-        {pagesRightArrows}
-      </div>
+      <ArrowsPagesComponent direction={"right"} />
     </div>
   );
 };
-
-function createPagesArrow(
-  IconElement: IconType,
-  dispatch: any,
-  action: any,
-  size: number,
-  isArrowToEnd: boolean
-): JSX.Element {
-  return (
-    <div
-      className={!isArrowToEnd ? styles.arrow__step : styles.arrow__end}
-      onClick={() => {
-        dispatch(action());
-      }}
-    >
-      <IconElement size={size} opacity={0.5} />
-    </div>
-  );
-}
 
 function createPagesButtons(
   dispatch: any,
