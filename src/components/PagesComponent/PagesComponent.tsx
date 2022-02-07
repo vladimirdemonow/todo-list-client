@@ -119,7 +119,7 @@ export default (): JSX.Element => {
   useEffect(() => {
     const pageCount = Math.ceil(taskListSelector.length / 5);
     dispatch(setPageCount(pageCount));
-    dispatch(setFilter("all"));
+    // dispatch(setFilter("all"));
 
     if (pageCountSelector < pagePointSelector && pageCountSelector > 0) {
       dispatch(setPagePoint(pageCountSelector));

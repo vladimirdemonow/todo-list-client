@@ -61,11 +61,21 @@ export default (): JSX.Element => {
   }, [sortSelector]);
 
   useEffect(() => {
-    setViewPage(pageTasks(tasks, pagePointSelector));
+    setViewPage(
+      pageTasks(
+        filterTasks(taskListSelector, filterSelector),
+        pagePointSelector
+      )
+    );
   }, [pagePointSelector]);
 
   useEffect(() => {
-    setViewPage(pageTasks(taskListSelector, pagePointSelector));
+    setViewPage(
+      pageTasks(
+        filterTasks(taskListSelector, filterSelector),
+        pagePointSelector
+      )
+    );
     setTasks(taskListSelector);
   }, [taskListSelector]);
 
@@ -73,7 +83,7 @@ export default (): JSX.Element => {
     <div
       className={styles.task_list}
       onWheel={(e) => {
-        if (modalStateSelector === "edit-task") return;
+        if (modalStateSelector !== "absolute") return;
 
         dispatch(e.deltaY > 0 ? incrementPagePoint() : decrementPagePoint());
       }}
