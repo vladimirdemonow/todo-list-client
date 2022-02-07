@@ -63,3 +63,10 @@ $gray: #9b9b9b;
     box-shadow: none;
   }
 }
+
+.left_counter {
+  position: absolute;
+  right: -30px;
+  bottom: 5px;
+  opacity: 0.5;
+}

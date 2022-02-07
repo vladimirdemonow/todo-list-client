@@ -23,7 +23,7 @@ function createSortButton(sortSelector: TSort, dispatch: any) {
     <Element
       size={35}
       onClick={() => {
-        dispatch(setSort(sortSelector === "up" ? "down" : sortSelector));
+        dispatch(setSort(sortSelector === "up" ? "down" : "up"));
       }}
     />
   );
