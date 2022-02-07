@@ -4,27 +4,30 @@ import styles from "./InputTaskController.module.scss";
 
 type TInputTask = "create_task" | "edit_task";
 
-const maxInputCount = 100;
-
-interface IOnEnterTask {
-  (props: IEnterTaskProps): void;
+export interface IEnteredTextState {
+  text: string;
+  escaped: boolean;
 }
+
+const maxInputCount = 100;
 
 interface IInputTaskProps {
   inputType: TInputTask;
-  countLeftInputState: number;
-  setCountLeftInputState: React.Dispatch<React.SetStateAction<number>>;
   inputTaskRef: React.RefObject<HTMLInputElement>;
-  setEnteredTextState: React.Dispatch<React.SetStateAction<string>>;
+  setEnteredTextState: React.Dispatch<React.SetStateAction<IEnteredTextState>>;
+  styleLeftCount: string;
+  defaultText?: string | "";
 }
 
 export default ({
   inputType,
-  countLeftInputState,
-  setCountLeftInputState,
   inputTaskRef,
   setEnteredTextState,
+  styleLeftCount,
+  defaultText = "",
 }: IInputTaskProps): JSX.Element => {
+  const [countLeftInputState, setCountLeftInputState] = useState(maxInputCount);
+
   return (
     <div className={styles.form__group}>
       <InputTaskText
@@ -32,9 +35,13 @@ export default ({
         inputTaskRef={inputTaskRef}
         setCountLeftInputState={setCountLeftInputState}
         setEnteredTextState={setEnteredTextState}
+        defaultText={defaultText}
       />
       {countLeftInputState < maxInputCount ? (
-        <LeftTextCounter leftTextCount={countLeftInputState} />
+        <LeftTextCounter
+          leftTextCount={countLeftInputState}
+          styleLeftCount={styleLeftCount}
+        />
       ) : (
         <></>
       )}
@@ -46,7 +53,8 @@ interface IInputTaskTextProps {
   inputType: TInputTask;
   inputTaskRef: React.RefObject<HTMLInputElement>;
   setCountLeftInputState: React.Dispatch<React.SetStateAction<number>>;
-  setEnteredTextState: React.Dispatch<React.SetStateAction<string>>;
+  setEnteredTextState: React.Dispatch<React.SetStateAction<IEnteredTextState>>;
+  defaultText: string | "";
 }
 
 function InputTaskText({
@@ -54,6 +62,7 @@ function InputTaskText({
   inputTaskRef,
   setCountLeftInputState,
   setEnteredTextState,
+  defaultText,
 }: IInputTaskTextProps): JSX.Element {
   const onPressButton = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (!inputTaskRef.current) return;
@@ -64,7 +73,10 @@ function InputTaskText({
 
     if (key === "Enter") {
       let { value } = inputTaskRef.current;
-      setEnteredTextState(inputTaskRef.current.value);
+      setEnteredTextState({
+        text: inputTaskRef.current.value,
+        escaped: false,
+      });
       inputTaskRef.current.value = "";
       setCountLeftInputState(maxInputCount);
 
@@ -76,6 +88,11 @@ function InputTaskText({
     if (key === "Escape") {
       inputTaskRef.current.value = "";
       setCountLeftInputState(maxInputCount);
+
+      setEnteredTextState({
+        text: " ",
+        escaped: true,
+      });
     }
 
     if (inputTaskRef.current.value.length >= maxInputCount) {
@@ -95,14 +112,20 @@ function InputTaskText({
       onKeyDownCapture={onPressButton}
       onChange={onChangeInput}
       className={styles.form__field}
+      defaultValue={defaultText}
+      autoFocus
     />
   );
 }
 
 interface ILeftTextCounterProps {
   leftTextCount: number;
+  styleLeftCount: string;
 }
 
-function LeftTextCounter(props: ILeftTextCounterProps): JSX.Element {
-  return <div className={styles.left_counter}>{props.leftTextCount}</div>;
+function LeftTextCounter({
+  leftTextCount,
+  styleLeftCount,
+}: ILeftTextCounterProps): JSX.Element {
+  return <div className={styleLeftCount}>{leftTextCount}</div>;
 }

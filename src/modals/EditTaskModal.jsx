@@ -1,6 +1,7 @@
-import { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import InputTaskController from "../features/controllers/InputTaskController";
 import {
   selectCurrentTaskID,
   setAbsoluteModal,
@@ -24,37 +25,39 @@ export default function EditTaskModal() {
   const dispatch = useAppDispatch();
   const currentTaskID = useAppSelector(selectCurrentTaskID);
   const taskListSelector = useAppSelector(selectTaskList);
-  const inputRef = useRef();
+  const inputTaskRef = useRef();
 
-  function afterOpenModal() {
-    inputRef.current.value = taskListSelector.find(
-      (element) => element.id === currentTaskID
-    ).text;
-  }
+  const initialState = { text: "", escaped: false };
+  const [enteredTextState, setEnteredTextState] = useState(initialState);
 
-  function closeModal(causeClose) {
-    if (causeClose === "Enter") {
-      dispatch(changeTask({ text: inputRef.current.value, id: currentTaskID }));
+  useEffect(() => {
+    if (enteredTextState.text === "") return;
+    if (enteredTextState.escaped) {
+      dispatch(setAbsoluteModal());
+      return;
+    } else {
+      dispatch(changeTask({ text: enteredTextState.text, id: currentTaskID }));
+      dispatch(setAbsoluteModal());
+      return;
     }
-    dispatch(setAbsoluteModal());
-  }
+  }, [enteredTextState]);
 
   return (
     <div>
       <Modal
         isOpen={true}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
         style={customStyles}
         ariaHideApp={false} // For stop log errors of this modal
       >
-        <input
-          autoFocus
-          ref={inputRef}
-          className={styles.edit_task__modal}
-          onKeyPressCapture={(e) => {
-            if (e.key === "Escape" || e.key === "Enter") closeModal(e.key);
-          }}
+        <InputTaskController
+          inputType="edit_task"
+          inputTaskRef={inputTaskRef}
+          setEnteredTextState={setEnteredTextState}
+          styleLeftCount={styles.left_counter}
+          defaultText={
+            taskListSelector.find((element) => element.id === currentTaskID)
+              .text
+          }
         />
       </Modal>
     </div>

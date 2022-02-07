@@ -4,31 +4,33 @@ import { v4 } from "uuid";
 
 import { useAppDispatch } from "../../app/hooks";
 import { createTask, ITask } from "../../features/slices/taskListSlice";
-import InputTaskController from "../../features/controllers/InputTaskController";
+import InputTaskController, {
+  IEnteredTextState,
+} from "../../features/controllers/InputTaskController";
 import { ActionCreatorWithPayload, AnyAction } from "@reduxjs/toolkit";
 
 const maxInputCount = 100;
 
+const initialState: IEnteredTextState = { text: "", escaped: false };
 export default (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const [countLeftInputState, setCountLeftInputState] = useState(maxInputCount);
-  const [enteredTextState, setEnteredTextState] = useState("");
+  const [enteredTextState, setEnteredTextState] = useState(initialState);
 
   const inputTaskRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (enteredTextState !== "") onEnterTask({ dispatch, enteredTextState });
-    setEnteredTextState("");
+    if (enteredTextState.text !== "")
+      onEnterTask({ dispatch, enteredTextState: enteredTextState.text });
+    setEnteredTextState(initialState);
   }, [enteredTextState]);
 
   return (
     <div className={styles.form__group}>
       <InputTaskController
         inputType="create_task"
-        setCountLeftInputState={setCountLeftInputState}
-        countLeftInputState={countLeftInputState}
         inputTaskRef={inputTaskRef}
         setEnteredTextState={setEnteredTextState}
+        styleLeftCount={styles.left_counter}
       />
     </div>
   );
