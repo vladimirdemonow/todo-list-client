@@ -12,6 +12,11 @@
   background: rgb(246, 248, 212);
 }
 
+.task:hover {
+  width: 89%;
+  background: rgb(243, 251, 252);
+}
+
 .task__completed {
   background: rgb(216, 216, 216);
 }

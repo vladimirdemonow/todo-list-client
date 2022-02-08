@@ -88,13 +88,6 @@ export default ({ direction }: IArrowsPagesProps): JSX.Element => {
 
   useEffect(() => {
     if (!isWillShown(pageViewPointSelector, pageCountSelector)) {
-      console.log(
-        direction,
-        " view ",
-        pageViewPointSelector,
-        "count ",
-        pageCountSelector
-      );
       setPagesArrows(emptyArrowComponent);
       return;
     }
