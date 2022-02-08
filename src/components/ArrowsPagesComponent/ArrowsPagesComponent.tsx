@@ -13,6 +13,9 @@ import {
   incrementPagePoint,
   selectPageViewEnd,
   selectPageViewStart,
+  setPagePointEnd,
+  setPagePointStart,
+  selectPageCount,
 } from "../../features/slices/pageSlice";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -25,11 +28,11 @@ const arrowSize = 42;
 interface IArrowOne {
   ToOneStepArrow: IconType;
   ToEndPointArrow: IconType;
+  ToOneStepAction: ActionCreatorWithoutPayload<string>;
+  ToEndPointAction: ActionCreatorWithoutPayload<string>;
   style: string;
-  pageViewSelector: (state: RootState) => number;
-  isWillShowed: Function;
-  actionPagePoint: ActionCreatorWithoutPayload<string>;
-  leftOrder: boolean;
+  selectPageViewPoint: (state: RootState) => number;
+  isWillShown: (pageViewSelector: any, pageCountSelector?: any) => boolean;
 }
 
 interface IArrowElementConst {
@@ -39,22 +42,24 @@ interface IArrowElementConst {
 
 const arrowElementConst: IArrowElementConst = {
   left: {
-    ToOneStepArrow: AiFillStepBackward,
-    ToEndPointArrow: AiFillCaretLeft,
+    ToOneStepArrow: AiFillCaretLeft,
+    ToEndPointArrow: AiFillStepBackward,
+    ToOneStepAction: decrementPagePoint,
+    ToEndPointAction: setPagePointStart,
     style: styles.arrow__left,
-    pageViewSelector: selectPageViewStart,
-    isWillShowed: (pageViewStart: number) => pageViewStart > 5,
-    actionPagePoint: decrementPagePoint,
-    leftOrder: true,
+    selectPageViewPoint: selectPageViewStart,
+    isWillShown: (pageViewSelector) => pageViewSelector > 1,
   },
   right: {
-    ToOneStepArrow: AiFillStepForward,
-    ToEndPointArrow: AiFillCaretRight,
+    ToOneStepArrow: AiFillCaretRight,
+    ToEndPointArrow: AiFillStepForward,
+    ToOneStepAction: incrementPagePoint,
+    ToEndPointAction: setPagePointEnd,
     style: styles.arrow__right,
-    pageViewSelector: selectPageViewEnd,
-    isWillShowed: (pageViewEnd: number) => pageViewEnd < pageViewEnd - 5,
-    actionPagePoint: incrementPagePoint,
-    leftOrder: false,
+    selectPageViewPoint: selectPageViewEnd,
+    isWillShown: (pageViewSelector, pageCountSelector) => {
+      return pageViewSelector < pageCountSelector;
+    },
   },
 };
 
@@ -68,42 +73,56 @@ export default ({ direction }: IArrowsPagesProps): JSX.Element => {
   const {
     ToOneStepArrow,
     ToEndPointArrow,
-    style,
-    pageViewSelector,
-    isWillShowed,
-    actionPagePoint,
-    leftOrder,
+    selectPageViewPoint,
+    ToOneStepAction,
+    ToEndPointAction,
+    isWillShown,
   } = arrowElementConst[direction];
 
-  const pageViewPoint = useAppSelector(pageViewSelector);
-
-  const dispatch = useAppDispatch();
+  const pageViewPointSelector = useAppSelector(selectPageViewPoint);
+  const pageCountSelector = useAppSelector(selectPageCount);
 
   const [pagesArrows, setPagesArrows] = useState(emptyArrowComponent);
 
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    if (isWillShowed(pageViewPoint)) {
+    if (!isWillShown(pageViewPointSelector, pageCountSelector)) {
+      console.log(
+        direction,
+        " view ",
+        pageViewPointSelector,
+        "count ",
+        pageCountSelector
+      );
       setPagesArrows(emptyArrowComponent);
       return;
     }
 
-    setPagesArrows([
-      createPagesArrow(
-        ToOneStepArrow,
-        dispatch,
-        actionPagePoint,
-        arrowSize,
-        leftOrder
-      ),
-      createPagesArrow(
-        ToEndPointArrow,
-        dispatch,
-        actionPagePoint,
-        arrowSize,
-        !leftOrder
-      ),
-    ]);
-  }, [pageViewPoint]);
+    const toEndPointArrowBlock = createPagesArrow(
+      ToEndPointArrow,
+      dispatch,
+      ToEndPointAction,
+      arrowSize,
+      false
+    );
+
+    const stepArrowBlock = createPagesArrow(
+      ToOneStepArrow,
+      dispatch,
+      ToOneStepAction,
+      arrowSize,
+      true
+    );
+
+    const resultArrowBlock = [toEndPointArrowBlock, stepArrowBlock];
+
+    if (direction === "right") {
+      resultArrowBlock.reverse();
+    }
+
+    setPagesArrows(resultArrowBlock);
+  }, [pageCountSelector, pageViewPointSelector]);
 
   return (
     <div
@@ -125,7 +144,7 @@ function createPagesArrow(
 ): JSX.Element {
   return (
     <div
-      className={!isArrowToEndPoint ? styles.arrow__step : styles.arrow__end}
+      className={isArrowToEndPoint ? styles.arrow__step : styles.arrow__end}
       onClick={() => {
         dispatch(action());
       }}

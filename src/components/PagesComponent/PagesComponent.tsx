@@ -1,24 +1,12 @@
 import styles from "./PagesComponent.module.scss";
 
 import {
-  AiFillCaretLeft,
-  AiFillCaretRight,
-  AiFillStepBackward,
-  AiFillStepForward,
-} from "react-icons/ai";
-import { IconType } from "react-icons/lib";
-
-import {
-  decrementPagePoint,
-  incrementPagePoint,
   selectPageCount,
   selectPagePoint,
   selectPageViewEnd,
   selectPageViewStart,
   setPageCount,
   setPagePoint,
-  setPagePointEnd,
-  setPagePointStart,
 } from "../../features/slices/pageSlice";
 
 import ArrowsPagesComponent from "../ArrowsPagesComponent/ArrowsPagesComponent";
