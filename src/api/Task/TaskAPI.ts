@@ -24,8 +24,9 @@ interface IPostTaskResponseData {
 
 export async function postTaskRequest(body: IPostTaskRequest) {
   let result: IPostTaskResponseData | null = null;
+
   await axios
-    .post("https://todo-api-learning.herokuapp.com/v1/task/5", body)
+    .post(process.env.TODO_LIST_API + "/task/5", body)
     .then(function ({ data, status, statusText }: IPostTaskResponse) {
       // handle success
       result = data;
