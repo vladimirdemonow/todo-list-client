@@ -33,49 +33,47 @@ export default (): JSX.Element => {
 
   const modalStateSelector = useAppSelector(selectModalState);
 
-  const [tasks, setTasks] = useState(taskListSelector);
+  const [filteredTaskList, setFilteredTaskList] = useState(taskListSelector);
   const [viewPage, setViewPage] = useState(taskListSelector);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    let filteredTasks = filterTasks(taskListSelector, filterSelector);
-    setTasks(filteredTasks);
+    let sortedTasks = sortTasks([...filteredTaskList], sortSelector);
 
-    dispatch(setPageCount(Math.ceil(filteredTasks.length / 5)));
-    dispatch(setPagePoint(1));
-
-    let pagedTasks = pageTasks(filteredTasks, pagePointSelector);
-
-    setViewPage(pagedTasks);
-  }, [filterSelector]);
-
-  useEffect(() => {
-    let sortedTasks = sortTasks([...tasks], sortSelector);
-
-    setTasks(sortedTasks);
-
-    let pagedTasks = pageTasks(sortedTasks, pagePointSelector);
-
-    setViewPage(pagedTasks);
+    createViewPage(
+      sortedTasks,
+      setViewPage,
+      filterSelector,
+      pagePointSelector,
+      setFilteredTaskList
+    );
   }, [sortSelector]);
 
   useEffect(() => {
-    setViewPage(
-      pageTasks(
-        filterTasks(taskListSelector, filterSelector),
-        pagePointSelector
-      )
+    createViewPage(
+      taskListSelector,
+      setViewPage,
+      filterSelector,
+      pagePointSelector,
+      setFilteredTaskList
     );
   }, [pagePointSelector]);
 
   useEffect(() => {
-    const filteredTasks = filterTasks(taskListSelector, filterSelector);
-
-    dispatch(setPageCount(Math.ceil(filteredTasks.length / 5)));
-    setViewPage(pageTasks(filteredTasks, pagePointSelector));
-    setTasks(taskListSelector);
-  }, [taskListSelector]);
+    const currentViewPage = createViewPage(
+      taskListSelector,
+      setViewPage,
+      filterSelector,
+      pagePointSelector,
+      setFilteredTaskList
+    );
+    dispatch(
+      setPageCount(
+        Math.ceil(currentViewPage[EFilterAndPageTasks.filtered].length / 5)
+      )
+    );
+  }, [taskListSelector, filterSelector]);
 
   return (
     <div
@@ -113,39 +111,46 @@ function createDefaultImage(filterSelector: TFilter): JSX.Element {
   return <Element className={styles.default} size={100} opacity={0.2} />;
 }
 
+// Filter taskList
+type TFilterFunction = (tasks: ITask[]) => ITask[];
+
+interface IFilterConst {
+  all: TFilterFunction;
+  done: TFilterFunction;
+  undone: TFilterFunction;
+}
+
+const filterConsts: IFilterConst = {
+  all: (tasks) => tasks,
+  done: (tasks) => tasks.filter((element) => element.isCompleted),
+  undone: (tasks) => tasks.filter((element) => !element.isCompleted),
+};
+
 function filterTasks(
   tasks: Array<ITask>,
   filterSelector: TFilter
 ): Array<ITask> {
-  if (filterSelector === "all") {
-    return tasks;
-  }
-
-  if (filterSelector === "done") {
-    return tasks.filter((element) => element.isCompleted);
-  }
-
-  if (filterSelector === "undone") {
-    return tasks.filter((element) => !element.isCompleted);
-  }
-
-  return tasks;
+  return filterConsts[filterSelector](tasks);
 }
 
+// Sort taskList
+
+type TSortFunction = (tasks: ITask[]) => ITask[];
+
+interface ISortConst {
+  default: TSortFunction;
+  down: TSortFunction;
+  up: TSortFunction;
+}
+
+const sortConsts: ISortConst = {
+  default: (tasks) => tasks,
+  down: (tasks) => tasks.sort((a, b) => a.timeStamp - b.timeStamp),
+  up: (tasks) => tasks.sort((a, b) => b.timeStamp - a.timeStamp),
+};
+
 function sortTasks(tasks: Array<ITask>, sortSelector: TSort): Array<ITask> {
-  if (sortSelector === "down") {
-    return tasks.sort((a, b) => a.timeStamp - b.timeStamp);
-  }
-
-  if (sortSelector === "up") {
-    return tasks.sort((a, b) => b.timeStamp - a.timeStamp);
-  }
-
-  if (sortSelector === "default") {
-    return tasks;
-  }
-
-  return tasks;
+  return sortConsts[sortSelector](tasks);
 }
 
 function pageTasks(tasks: Array<ITask>, page: number): Array<ITask> {
@@ -155,4 +160,24 @@ function pageTasks(tasks: Array<ITask>, page: number): Array<ITask> {
   return tasks.filter((element, index) => {
     return index >= minPointPage && index <= maxPointPage;
   });
+}
+
+// Create current page
+enum EFilterAndPageTasks {
+  "filtered" = 0,
+  "paged" = 1,
+}
+
+function createViewPage(
+  currentTaskList: ITask[],
+  setViewPage: (value: React.SetStateAction<ITask[]>) => void,
+  filterSelector: TFilter,
+  pagePointSelector: number,
+  setFilteredTaskList: React.Dispatch<React.SetStateAction<ITask[]>>
+): [ITask[], ITask[]] {
+  const filteredTasks = filterTasks(currentTaskList, filterSelector);
+  setFilteredTaskList(filteredTasks);
+  const pagedTasks = pageTasks(filteredTasks, pagePointSelector);
+  setViewPage(pagedTasks);
+  return [filteredTasks, pagedTasks];
 }
