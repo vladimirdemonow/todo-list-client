@@ -27,7 +27,6 @@ export default (): JSX.Element => {
 
   const [pagesButtons, setPagesButtons] = useState([]);
 
-  // in this useEffect maybe pageCountSelector and pagePointSelector control can be divided to two diffents useEffect for optimization
   useEffect(() => {
     setPagesButtons(
       createPagesButtons(
@@ -37,17 +36,11 @@ export default (): JSX.Element => {
         pagePointSelector
       )
     );
-  }, [pageCountSelector, pagePointSelector]);
-
-  // set taskListSelector to useEffect controller is not best solution
-  useEffect(() => {
-    const pageCount = Math.ceil(taskListSelector.length / 5);
-    dispatch(setPageCount(pageCount));
 
     if (pageCountSelector < pagePointSelector && pageCountSelector > 0) {
-      dispatch(setPagePoint(pageCountSelector));
+      dispatch(setPagePoint(1));
     }
-  }, [taskListSelector]);
+  }, [pageCountSelector, pagePointSelector]);
 
   if (pageCountSelector < 2) {
     return <></>;
@@ -55,9 +48,17 @@ export default (): JSX.Element => {
 
   return (
     <div className={styles.pages}>
-      <ArrowsPagesComponent direction={"left"} />
+      {pageCountSelector > 1 ? (
+        <ArrowsPagesComponent direction={"left"} />
+      ) : (
+        <></>
+      )}
       <div>{pagesButtons}</div>
-      <ArrowsPagesComponent direction={"right"} />
+      {pageCountSelector > 1 ? (
+        <ArrowsPagesComponent direction={"right"} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
