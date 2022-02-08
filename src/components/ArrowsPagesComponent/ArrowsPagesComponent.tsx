@@ -119,6 +119,7 @@ export default ({ direction }: IArrowsPagesProps): JSX.Element => {
 
   return (
     <div
+      key={direction}
       className={
         styles.arrows__block + " " + arrowElementConst[direction].style
       }

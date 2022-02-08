@@ -72,6 +72,7 @@ function createCheckButton(
 
   return (
     <Element
+      key={id}
       size={30}
       onClick={() =>
         dispatch(isCompleted ? uncompleteTask(id) : completeTask(id))

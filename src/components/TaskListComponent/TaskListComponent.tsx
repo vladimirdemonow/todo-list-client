@@ -70,12 +70,10 @@ export default (): JSX.Element => {
   }, [pagePointSelector]);
 
   useEffect(() => {
-    setViewPage(
-      pageTasks(
-        filterTasks(taskListSelector, filterSelector),
-        pagePointSelector
-      )
-    );
+    const filteredTasks = filterTasks(taskListSelector, filterSelector);
+
+    dispatch(setPageCount(Math.ceil(filteredTasks.length / 5)));
+    setViewPage(pageTasks(filteredTasks, pagePointSelector));
     setTasks(taskListSelector);
   }, [taskListSelector]);
 

@@ -38,6 +38,7 @@ function createFilterButton(
         styles.button +
         (currentFilter === activeFilter ? " " + stylesFilter[activeFilter] : "")
       }
+      key={currentFilter}
       onClick={() => dispatch(setFilter(currentFilter))}
     >
       {currentFilter}
