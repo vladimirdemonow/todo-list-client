@@ -27,7 +27,7 @@ export const taskListSlice = createSlice({
   initialState,
   reducers: {
     createTask: (state, action: PayloadAction<ITask>) => {
-      state.tasks.push(action.payload);
+      state.tasks.unshift(action.payload);
     },
     completeTask: (state, action: PayloadAction<string>) => {
       state.tasks.find((element, index, array) => {
