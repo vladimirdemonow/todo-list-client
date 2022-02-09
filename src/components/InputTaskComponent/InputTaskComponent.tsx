@@ -8,6 +8,7 @@ import InputTaskController, {
   IEnteredTextState,
 } from "../../features/controllers/InputTaskController";
 import { ActionCreatorWithPayload, AnyAction } from "@reduxjs/toolkit";
+import { postTaskRequest } from "../../api/taskAPI/taskAPI";
 
 const maxInputCount = 100;
 
