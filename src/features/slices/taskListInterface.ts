@@ -7,7 +7,7 @@ export interface ITask {
 }
 
 export interface ITaskListState {
-  tasks: Array<ITask>;
+  tasks: ITask[];
   status: "idle" | "loading" | "failed";
 }
 

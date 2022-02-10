@@ -1,4 +1,4 @@
-import { ITask } from "./../../features/slices/taskListSlice";
+import { ITask } from "../../features/slices/taskListInterface";
 import {
   IAxiosResponseTaskBody,
   IAxiosResponseTaskListBody,

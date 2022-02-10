@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { axiosPostTaskRequest } from "../../api/taskAPI/taskAPI";
+import {
+  axiosGetTaskListRequest,
+  axiosPostTaskRequest,
+} from "../../api/taskAPI/taskAPI";
 import { RootState } from "../../app/store";
 import { ITask, ITaskListState } from "./taskListInterface";
 
@@ -17,18 +20,27 @@ export const postTaskAsync = createAsyncThunk(
   }
 );
 
+export const getTaskListAsync = createAsyncThunk(
+  "taskList/getTaskList",
+  async () => {
+    const response = await axiosGetTaskListRequest({ pp: 5 });
+    // The value we return becomes the `fulfilled` action payload
+    return response.data.tasks;
+  }
+);
+
 export const taskListSlice = createSlice({
   name: "taskList",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(postTaskAsync.pending, (state) => {
+      .addCase(getTaskListAsync.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(postTaskAsync.fulfilled, (state, action) => {
+      .addCase(getTaskListAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.tasks += action.payload;
+        state.tasks = action.payload;
       });
   },
 });
