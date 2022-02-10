@@ -12,6 +12,7 @@ const url = process.env.REACT_APP_TODO_LIST_API;
 const userId = process.env.REACT_APP_USER_ID;
 const endPoint = "/task/";
 
+// POST
 export async function axiosPostTaskRequest(
   requestBody: ITaskBody
 ): Promise<IAxiosResponseTaskBody> {
@@ -22,17 +23,18 @@ export async function axiosPostTaskRequest(
   }).catch(({ response }: IErrorResponse) => console.log(response.status));
 }
 
+// PATCH
 export async function axiosPatchTaskRequest(
-  uuid: string,
   requestBody: ITaskBody
 ): Promise<IAxiosResponseTaskBody> {
   return axios({
     method: "patch",
-    url: `${url}${endPoint}${userId}/${uuid}`,
+    url: `${url}${endPoint}${userId}/${requestBody.uuid}`,
     data: requestBody,
   }).catch(({ response }: IErrorResponse) => console.log(response.status));
 }
 
+// DELETE
 export async function axiosDeleteTaskRequest(uuid: string) {
   return axios({
     method: "delete",
@@ -40,6 +42,7 @@ export async function axiosDeleteTaskRequest(uuid: string) {
   }).catch(({ response }: IErrorResponse) => console.log(response.status));
 }
 
+// GET
 export async function axiosGetTaskListRequest(
   queryParams: ITaskListQueryParams
 ): Promise<IAxiosResponseTaskListBody> {

@@ -14,9 +14,7 @@ export default (): JSX.Element => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    console.log(viewTaskPage);
-  }, [viewTaskPage]);
+  useEffect(() => {}, [viewTaskPage]);
 
   return (
     <div className={styles.task_list}>
