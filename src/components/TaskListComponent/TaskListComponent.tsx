@@ -85,10 +85,10 @@ export default (): JSX.Element => {
       {viewPage.length !== 0
         ? viewPage.map((element) => (
             <TaskComponent
-              key={element.id}
+              key={element.uuid}
               text={element.name}
               date={element.date}
-              id={element.id}
+              id={element.uuid}
               isCompleted={element.done}
             />
           ))

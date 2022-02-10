@@ -1,25 +1,10 @@
-// REQUEST
-
-export interface ITaskRequestBody {
-  name: string;
-  done: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import { ITask } from "./../../features/slices/taskListSlice";
 
 // RESPONSE
 
 export interface IAxiosResponseTaskBody {
-  readonly data: ITaskResponseBody;
+  readonly data: ITask;
   readonly status: number;
-}
-
-export interface ITaskResponseBody {
-  name: string;
-  done: boolean;
-  uuid: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 // TASK LIST BODY
@@ -30,7 +15,7 @@ export interface IAxiosResponseTaskListBody {
 
 export interface ITaskListResponseBody {
   count: number;
-  tasks: ITaskResponseBody[];
+  tasks: ITask[];
 }
 
 // PARAMS

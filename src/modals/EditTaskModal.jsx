@@ -6,7 +6,7 @@ import {
   selectCurrentTaskID,
   setAbsoluteModal,
 } from "../features/slices/modalSlice";
-import { changeTask, selectTaskList } from "../features/slices/taskListSlice";
+import { updateTask, selectTaskList } from "../features/slices/taskListSlice";
 
 import styles from "./EditTaskModal.module.scss";
 
@@ -36,7 +36,7 @@ export default function EditTaskModal() {
       dispatch(setAbsoluteModal());
       return;
     } else {
-      dispatch(changeTask({ text: enteredTextState.text, id: currentTaskID }));
+      dispatch(updateTask({ text: enteredTextState.text, id: currentTaskID }));
       dispatch(setAbsoluteModal());
       return;
     }
@@ -55,7 +55,7 @@ export default function EditTaskModal() {
           setEnteredTextState={setEnteredTextState}
           styleLeftCount={styles.left_counter}
           defaultText={
-            taskListSelector.find((element) => element.id === currentTaskID)
+            taskListSelector.find((element) => element.uuid === currentTaskID)
               .name
           }
         />

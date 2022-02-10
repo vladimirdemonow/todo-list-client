@@ -1,67 +1,39 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { axiosPostTaskRequest } from "../../api/taskAPI/taskAPI";
 import { RootState } from "../../app/store";
-
-export interface ITask {
-  name: string;
-  done: boolean;
-  uuid: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface ITaskListState {
-  tasks: Array<ITask>;
-}
-
-export interface IChangeTaskPayload {
-  id: string;
-  text: string;
-}
+import { ITask, ITaskListState } from "./taskListInterface";
 
 const initialState: ITaskListState = {
   tasks: [],
+  status: "idle",
 };
+
+export const postTaskAsync = createAsyncThunk(
+  "taskList/postTask",
+  async (task: ITask) => {
+    const response = await axiosPostTaskRequest(task);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
 
 export const taskListSlice = createSlice({
   name: "taskList",
   initialState,
-  reducers: {
-    createTask: (state, action: PayloadAction<ITask>) => {
-      state.tasks.unshift(action.payload);
-    },
-    completeTask: (state, action: PayloadAction<string>) => {
-      state.tasks.find((element, index, array) => {
-        if (element.uuid === action.payload) array[index].done = true;
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(postTaskAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(postTaskAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.tasks += action.payload;
       });
-    },
-    uncompleteTask: (state, action: PayloadAction<string>) => {
-      state.tasks.find((element, index, array) => {
-        if (element.uuid === action.payload) array[index].done = false;
-      });
-    },
-    deleteTask: (state, action: PayloadAction<string>) => {
-      state.tasks = state.tasks.filter((element) => {
-        return element.uuid === action.payload ? false : true;
-      });
-    },
-    changeTask: (state, action: PayloadAction<IChangeTaskPayload>) => {
-      state.tasks = state.tasks.map((element) => {
-        if (element.uuid === action.payload.id) {
-          element.name = action.payload.text;
-        }
-        return element;
-      });
-    },
   },
 });
 
-export const {
-  createTask,
-  completeTask,
-  uncompleteTask,
-  deleteTask,
-  changeTask,
-} = taskListSlice.actions;
+export const {} = taskListSlice.actions;
 
 export const selectTaskList = (state: RootState) => state.taskList.tasks;
 

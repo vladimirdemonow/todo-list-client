@@ -1,13 +1,13 @@
 import React, { Dispatch, useEffect, useRef, useState } from "react";
 import styles from "./InputTaskComponent.module.scss";
-import { v4 } from "uuid";
+import dayjs from "dayjs";
 
 import { useAppDispatch } from "../../app/hooks";
-import { createTask, ITask } from "../../features/slices/taskListSlice";
+import { createTask } from "../../features/slices/taskListSlice";
 import InputTaskController, {
   IEnteredTextState,
 } from "../../features/controllers/InputTaskController";
-import { ActionCreatorWithPayload, AnyAction } from "@reduxjs/toolkit";
+import { AnyAction } from "@reduxjs/toolkit";
 
 const maxInputCount = 100;
 
@@ -42,15 +42,15 @@ export interface IEnterTaskProps {
 }
 
 function onEnterTask({ dispatch, enteredTextState: value }: IEnterTaskProps) {
-  const [, month, number, year, time] = Date().toString().trim().split(" ");
+  dayjs(new Date());
+  const time = dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
 
   dispatch(
     createTask({
-      id: v4(),
       name: value,
-      date: `${time} | ${number} ${month} ${year}`,
+      createdAt: time,
+      updatedAt: time,
       done: false,
-      timeStamp: Date.now(),
     })
   );
 }
