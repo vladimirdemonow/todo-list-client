@@ -28,8 +28,8 @@ interface IFilterConst {
 
 const filterConsts: IFilterConst = {
   all: (tasks) => tasks,
-  done: (tasks) => tasks.filter((element) => element.isCompleted),
-  undone: (tasks) => tasks.filter((element) => !element.isCompleted),
+  done: (tasks) => tasks.filter((element) => element.done),
+  undone: (tasks) => tasks.filter((element) => !element.done),
 };
 
 export function filterTasks(

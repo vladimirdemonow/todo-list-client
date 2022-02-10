@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { postTaskRequest } from "../../api/taskAPI/taskAPI";
 import { RootState } from "../../app/store";
 
 export interface ITask {
-  id: string;
-  text: String;
-  date: String;
-  isCompleted: boolean;
-  timeStamp: number;
+  name: string;
+  done: boolean;
+  uuid: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ITaskListState {
@@ -32,23 +31,23 @@ export const taskListSlice = createSlice({
     },
     completeTask: (state, action: PayloadAction<string>) => {
       state.tasks.find((element, index, array) => {
-        if (element.id === action.payload) array[index].isCompleted = true;
+        if (element.uuid === action.payload) array[index].done = true;
       });
     },
     uncompleteTask: (state, action: PayloadAction<string>) => {
       state.tasks.find((element, index, array) => {
-        if (element.id === action.payload) array[index].isCompleted = false;
+        if (element.uuid === action.payload) array[index].done = false;
       });
     },
     deleteTask: (state, action: PayloadAction<string>) => {
       state.tasks = state.tasks.filter((element) => {
-        return element.id === action.payload ? false : true;
+        return element.uuid === action.payload ? false : true;
       });
     },
     changeTask: (state, action: PayloadAction<IChangeTaskPayload>) => {
       state.tasks = state.tasks.map((element) => {
-        if (element.id === action.payload.id) {
-          element.text = action.payload.text;
+        if (element.uuid === action.payload.id) {
+          element.name = action.payload.text;
         }
         return element;
       });

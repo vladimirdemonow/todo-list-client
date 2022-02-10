@@ -8,7 +8,6 @@ import InputTaskController, {
   IEnteredTextState,
 } from "../../features/controllers/InputTaskController";
 import { ActionCreatorWithPayload, AnyAction } from "@reduxjs/toolkit";
-import { postTaskRequest } from "../../api/taskAPI/taskAPI";
 
 const maxInputCount = 100;
 
@@ -48,9 +47,9 @@ function onEnterTask({ dispatch, enteredTextState: value }: IEnterTaskProps) {
   dispatch(
     createTask({
       id: v4(),
-      text: value,
+      name: value,
       date: `${time} | ${number} ${month} ${year}`,
-      isCompleted: false,
+      done: false,
       timeStamp: Date.now(),
     })
   );

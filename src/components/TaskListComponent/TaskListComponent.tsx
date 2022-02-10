@@ -86,10 +86,10 @@ export default (): JSX.Element => {
         ? viewPage.map((element) => (
             <TaskComponent
               key={element.id}
-              text={element.text}
+              text={element.name}
               date={element.date}
               id={element.id}
-              isCompleted={element.isCompleted}
+              isCompleted={element.done}
             />
           ))
         : createDefaultImage(filterSelector)}

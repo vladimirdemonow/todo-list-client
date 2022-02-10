@@ -56,7 +56,7 @@ export default function EditTaskModal() {
           styleLeftCount={styles.left_counter}
           defaultText={
             taskListSelector.find((element) => element.id === currentTaskID)
-              .text
+              .name
           }
         />
       </Modal>
