@@ -1,9 +1,15 @@
-import { ITask } from "../../features/slices/taskListInterface";
+export interface ITaskBody {
+  uuid?: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  done: boolean;
+}
 
 // RESPONSE
 
 export interface IAxiosResponseTaskBody {
-  readonly data: ITask;
+  readonly data: ITaskBody;
   readonly status: number;
 }
 
@@ -15,7 +21,7 @@ export interface IAxiosResponseTaskListBody {
 
 export interface ITaskListResponseBody {
   count: number;
-  tasks: ITask[];
+  tasks: ITaskBody[];
 }
 
 // PARAMS

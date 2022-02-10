@@ -1,8 +1,8 @@
-import { ITask } from "../../features/slices/taskListInterface";
 import {
   IAxiosResponseTaskBody,
   IAxiosResponseTaskListBody,
   IErrorResponse,
+  ITaskBody,
   ITaskListQueryParams,
 } from "./taskAPIInterfaces";
 
@@ -13,7 +13,7 @@ const userId = process.env.REACT_APP_USER_ID;
 const endPoint = "/task/";
 
 export async function axiosPostTaskRequest(
-  requestBody: ITask
+  requestBody: ITaskBody
 ): Promise<IAxiosResponseTaskBody> {
   return axios({
     method: "post",
@@ -24,7 +24,7 @@ export async function axiosPostTaskRequest(
 
 export async function axiosPatchTaskRequest(
   uuid: string,
-  requestBody: ITask
+  requestBody: ITaskBody
 ): Promise<IAxiosResponseTaskBody> {
   return axios({
     method: "patch",

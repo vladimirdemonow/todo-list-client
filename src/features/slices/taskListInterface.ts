@@ -1,13 +1,7 @@
-export interface ITask {
-  uuid?: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  done: boolean;
-}
+import { ITaskBody } from "../../api/taskAPI/taskAPIInterfaces";
 
 export interface ITaskListState {
-  tasks: ITask[];
+  viewTaskPage: ITaskBody[];
   status: "idle" | "loading" | "failed";
 }
 
