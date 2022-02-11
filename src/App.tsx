@@ -3,20 +3,19 @@ import TaskListComponent from "./components/TaskListComponent/TaskListComponent"
 import FilterComponent from "./components/FilterComponent/FilterComponent";
 // import SortComponent from "./components/SortComponent/SortComponent";
 // import PagesComponent from "./components/PagesComponent/PagesComponent";
-import styles from "./styles/App.module.scss";
+// import styles from "./styles/App.module.scss";
+import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
+import { Layout } from "antd";
+import { Content, Footer, Header } from "antd/lib/layout/layout";
+import Sider from "antd/lib/layout/Sider";
 
 function App() {
   return (
-    <div className={styles.main_container}>
-      <h1>ToDo</h1>
-      {/* <InputTaskComponent /> */}
-      <div className={styles.buttons}>
-        <FilterComponent />
-        <>{/* <SortComponent /> */}</>
-      </div>
+    <Layout>
+      <FilterComponent />
+
       <TaskListComponent />
-      {/* <PagesComponent /> */}
-    </div>
+    </Layout>
   );
 }
 

@@ -1,86 +1,29 @@
-import styles from "./FilterComponent.module.scss";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {
-  axiosDeleteTaskRequest,
-  axiosGetTaskListRequest,
-  axiosPatchTaskRequest,
-  axiosPostTaskRequest,
-} from "../../api/taskAPI/taskAPI";
-import {
-  IAxiosResponseTaskBody,
-  IAxiosResponseTaskListBody,
-} from "../../api/taskAPI/taskAPIInterfaces";
-import {
-  deleteTaskAsync,
-  getTaskListAsync,
-  patchTaskAsync,
-  postTaskAsync,
-} from "../../features/slices/taskListSlice";
+import { Menu, Dropdown, Button } from "antd";
+import { useAppDispatch } from "../../app/hooks";
+import { getTaskListAsync } from "../../features/slices/taskListSlice";
 
-export default (): JSX.Element => {
+export default () => {
   const dispatch = useAppDispatch();
 
-  return (
-    <div className={styles.filter}>
-      <input
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            dispatch(
-              postTaskAsync({
-                name: e.currentTarget.value,
-                done: true,
-                createdAt: "2022-02-10T09:41:35.598Z",
-                updatedAt: "2022-02-10T09:41:35.598Z",
-              })
-            );
-
-            e.currentTarget.value = "";
-          }
-        }}
-        placeholder="add task"
-      />
-      <button
-        onClick={() => {
-          dispatch(getTaskListAsync({}));
-        }}
+  const menu = (
+    <Menu>
+      <Menu.Item onClick={() => dispatch(getTaskListAsync({}))}>All</Menu.Item>
+      <Menu.Item
+        onClick={() => dispatch(getTaskListAsync({ filterBy: "done" }))}
       >
-        getAllTasks
-      </button>
-      <input
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            dispatch(
-              patchTaskAsync({
-                name: "Text" + Date.now().toString(),
-                done: true,
-                createdAt: "2022-02-10T09:41:35.598Z",
-                updatedAt: "2022-02-10T09:41:35.598Z",
-                uuid: e.currentTarget.value,
-              })
-            );
-            e.currentTarget.value = "";
-          }
-        }}
-        placeholder="change task"
-      />
+        Done
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => dispatch(getTaskListAsync({ filterBy: "undone" }))}
+      >
+        Undone
+      </Menu.Item>
+    </Menu>
+  );
 
-      <input
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            dispatch(
-              deleteTaskAsync({
-                name: "Text" + Date.now().toString(),
-                done: true,
-                createdAt: "2022-02-10T09:41:35.598Z",
-                updatedAt: "2022-02-10T09:41:35.598Z",
-                uuid: e.currentTarget.value,
-              })
-            );
-            e.currentTarget.value = "";
-          }
-        }}
-        placeholder="delete task"
-      />
-    </div>
+  return (
+    <Dropdown overlay={menu} placement="topLeft" arrow>
+      <Button>Filter</Button>
+    </Dropdown>
   );
 };
