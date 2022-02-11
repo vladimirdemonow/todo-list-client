@@ -14,6 +14,8 @@ import {
   selectViewTaskPage,
 } from "../../features/slices/taskListSlice";
 
+import { DeleteOutlined } from "@ant-design/icons";
+
 type TTaskBodyTableDone = {
   taskBody: ITaskBody;
   done: boolean;
@@ -83,6 +85,24 @@ export default () => {
       />
       <Column dataIndex="name" key="name" />
       <Column dataIndex="updatedAt" key="updatedAt" />
+      <Column
+        dataIndex="delete"
+        key="delete"
+        render={({ taskBody }: TTaskBodyTableDelete) => {
+          return (
+            <DeleteOutlined
+              onClick={() => {
+                dispatch(
+                  axiosTaskThunk({
+                    method: "delete",
+                    data: { ...taskBody },
+                  })
+                );
+              }}
+            />
+          );
+        }}
+      />
     </Table>
   );
 };
