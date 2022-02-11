@@ -1,6 +1,7 @@
 import {
   IAxiosResponseTaskBody,
   IAxiosResponseTaskListBody,
+  IAxiosTaskRequest,
   IErrorResponse,
   ITaskBody,
   ITaskListQueryParams,
@@ -12,43 +13,25 @@ const url = process.env.REACT_APP_TODO_LIST_API;
 const userId = process.env.REACT_APP_USER_ID;
 const endPoint = "/task/";
 
-// POST
-export async function axiosPostTaskRequest(
-  requestBody: ITaskBody
-): Promise<IAxiosResponseTaskBody> {
-  return axios({
-    method: "post",
-    url: `${url}${endPoint}${userId}`,
-    data: requestBody,
-  }).catch(({ response }: IErrorResponse) => console.log(response.status));
-}
+export const axiosTaskRequest = async ({ method, data }: IAxiosTaskRequest) => {
+  const uuid =
+    method === "patch" || method === "delete" ? "/" + data?.uuid : "";
 
-// PATCH
-export async function axiosPatchTaskRequest(
-  requestBody: ITaskBody
-): Promise<IAxiosResponseTaskBody> {
   return axios({
-    method: "patch",
-    url: `${url}${endPoint}${userId}/${requestBody.uuid}`,
-    data: requestBody,
+    method,
+    url: `${url}${endPoint}${userId}${uuid}`,
+    data,
   }).catch(({ response }: IErrorResponse) => console.log(response.status));
-}
+};
 
-// DELETE
-export async function axiosDeleteTaskRequest(uuid: string) {
-  return axios({
-    method: "delete",
-    url: `${url}${endPoint}${userId}/${uuid}`,
-  }).catch(({ response }: IErrorResponse) => console.log(response.status));
-}
+// GET TASK LIST
 
-// GET
-export async function axiosGetTaskListRequest(
-  queryParams: ITaskListQueryParams
-): Promise<IAxiosResponseTaskListBody> {
+export const axiosGetTaskListRequest = async (
+  params: ITaskListQueryParams
+): Promise<IAxiosResponseTaskListBody> => {
   return axios({
     method: "get",
     url: `${url}/tasks/${userId}`,
-    params: { ...queryParams },
+    params,
   }).catch(({ response }: IErrorResponse) => console.log(response.status));
-}
+};

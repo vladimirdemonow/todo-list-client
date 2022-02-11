@@ -27,7 +27,7 @@ export interface ITaskListResponseBody {
 // PARAMS
 
 export interface ITaskListQueryParams {
-  filterBy?: "done" | "undone";
+  filterBy?: "done" | "undone" | null;
   order?: "asc" | "desk";
   pp?: 5 | 20;
   page?: number;
@@ -45,4 +45,14 @@ export interface IErrorResponse {
     status: TErrorStatus;
     data: TErrorData;
   };
+}
+
+// TASK REQUEST
+
+export type TMethod = "post" | "patch" | "delete";
+export type TRequestBody = ITaskBody | undefined;
+
+export interface IAxiosTaskRequest {
+  method: TMethod;
+  data: TRequestBody;
 }

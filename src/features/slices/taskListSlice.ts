@@ -1,59 +1,49 @@
 import {
-  ITaskBody,
   ITaskListQueryParams,
+  TMethod,
+  TRequestBody,
 } from "./../../api/taskAPI/taskAPIInterfaces";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  axiosDeleteTaskRequest,
   axiosGetTaskListRequest,
-  axiosPatchTaskRequest,
-  axiosPostTaskRequest,
+  axiosTaskRequest,
 } from "../../api/taskAPI/taskAPI";
 import { RootState } from "../../app/store";
 import { ITaskListState } from "./taskListInterface";
 
 const initialState: ITaskListState = {
   viewTaskPage: [],
-  status: "idle",
-  filterBy: "all",
-  order: "asc",
-  page: 1,
-  count: 0,
+  status: {
+    getTaskListRequestStatus: "idle",
+    taskRequestStatus: "idle",
+  },
+  params: {
+    filterBy: null,
+    order: "asc",
+    pp: 5,
+    page: 1,
+  },
+  isToUpdateTaskPage: false,
 };
 
-export const postTaskAsync = createAsyncThunk(
-  "taskList/postTask",
-  async (task: ITaskBody) => {
-    const response = await axiosPostTaskRequest(task);
+interface IAxiosTaskThunk {
+  method: TMethod;
+  data: TRequestBody;
+}
 
-    return response.data;
-  }
-);
-
-export const patchTaskAsync = createAsyncThunk(
-  "taskList/patchTask",
-  async (task: ITaskBody) => {
-    const response = await axiosPatchTaskRequest(task);
-
-    return response.data;
-  }
-);
-
-export const deleteTaskAsync = createAsyncThunk(
-  "taskList/deleteTask",
-  async ({ uuid }: ITaskBody) => {
-    if (!uuid) return;
-    await axiosDeleteTaskRequest(uuid);
+export const axiosTaskThunk = createAsyncThunk(
+  "taskList/Task",
+  async ({ method, data }: IAxiosTaskThunk) => {
+    await axiosTaskRequest({ method, data });
     return;
   }
 );
 
-export const getTaskListAsync = createAsyncThunk(
-  "taskList/getTaskList",
+export const axiosGetTaskListThunk = createAsyncThunk(
+  "taskList/GetTaskList",
   async (params: ITaskListQueryParams) => {
     const response = await axiosGetTaskListRequest(params);
-
-    return response.data.tasks;
+    return response.data;
   }
 );
 
@@ -63,64 +53,40 @@ export const taskListSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(postTaskAsync.pending, (state) => {
-        state.status = "loading";
+      .addCase(axiosTaskThunk.pending, (state) => {
+        state.status.taskRequestStatus = "loading";
       })
-      .addCase(postTaskAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+      .addCase(axiosTaskThunk.fulfilled, (state) => {
+        state.status.taskRequestStatus = "idle";
+        state.isToUpdateTaskPage = true;
       })
-      .addCase(postTaskAsync.rejected, (state) => {
-        state.status = "failed";
+      .addCase(axiosTaskThunk.rejected, (state) => {
+        state.status.taskRequestStatus = "failed";
       });
-
     builder
-      .addCase(patchTaskAsync.pending, (state) => {
-        state.status = "loading";
+      .addCase(axiosGetTaskListThunk.pending, (state) => {
+        state.status.getTaskListRequestStatus = "loading";
       })
-      .addCase(patchTaskAsync.fulfilled, (state, action) => {
-        console.log(action.payload);
-        state.status = "idle";
-      })
-      .addCase(patchTaskAsync.rejected, (state) => {
-        state.status = "failed";
-      });
+      .addCase(axiosGetTaskListThunk.fulfilled, (state, action) => {
+        console.log(action.payload.tasks);
 
-    builder
-      .addCase(deleteTaskAsync.pending, (state) => {
-        state.status = "loading";
+        state.viewTaskPage = action.payload.tasks;
+        state.isToUpdateTaskPage = false;
+        state.status.getTaskListRequestStatus = "idle";
       })
-      .addCase(deleteTaskAsync.fulfilled, (state, action) => {
-        console.log(action.payload);
-        state.status = "idle";
-      })
-      .addCase(deleteTaskAsync.rejected, (state) => {
-        state.status = "failed";
-      });
-
-    builder
-      .addCase(getTaskListAsync.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getTaskListAsync.fulfilled, (state, action) => {
-        console.log(action.payload);
-
-        state.viewTaskPage = action.payload;
-        state.status = "idle";
-      })
-      .addCase(getTaskListAsync.rejected, (state) => {
-        state.status = "failed";
+      .addCase(axiosGetTaskListThunk.rejected, (state) => {
+        state.status.getTaskListRequestStatus = "failed";
       });
   },
 });
-
-export const {} = taskListSlice.actions;
 
 export const selectViewTaskPage = (state: RootState) =>
   state.taskList.viewTaskPage;
 
 export const selectStatus = (state: RootState) => state.taskList.status;
 
-export const selectFilterBy = (state: RootState) => state.taskList.filterBy;
-export const selectOrder = (state: RootState) => state.taskList.order;
+export const selectParams = (state: RootState) => state.taskList.params;
+export const selectIsToUpdateTaskPage = (state: RootState) =>
+  state.taskList.isToUpdateTaskPage;
 
 export default taskListSlice.reducer;

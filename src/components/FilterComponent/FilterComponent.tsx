@@ -1,20 +1,40 @@
 import { Menu, Dropdown, Button } from "antd";
-import { useAppDispatch } from "../../app/hooks";
-import { getTaskListAsync } from "../../features/slices/taskListSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  axiosGetTaskListThunk,
+  axiosTaskThunk,
+  selectParams,
+} from "../../features/slices/taskListSlice";
 
 export default () => {
   const dispatch = useAppDispatch();
+  const paramsSelector = useAppSelector(selectParams);
 
   const menu = (
     <Menu>
-      <Menu.Item onClick={() => dispatch(getTaskListAsync({}))}>All</Menu.Item>
       <Menu.Item
-        onClick={() => dispatch(getTaskListAsync({ filterBy: "done" }))}
+        key="all"
+        onClick={() => dispatch(axiosGetTaskListThunk(paramsSelector))}
+      >
+        All
+      </Menu.Item>
+      <Menu.Item
+        key="done"
+        onClick={() =>
+          dispatch(
+            axiosGetTaskListThunk({ ...paramsSelector, filterBy: "done" })
+          )
+        }
       >
         Done
       </Menu.Item>
       <Menu.Item
-        onClick={() => dispatch(getTaskListAsync({ filterBy: "undone" }))}
+        key="undone"
+        onClick={() =>
+          dispatch(
+            axiosGetTaskListThunk({ ...paramsSelector, filterBy: "undone" })
+          )
+        }
       >
         Undone
       </Menu.Item>
