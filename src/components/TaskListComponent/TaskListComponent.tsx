@@ -62,6 +62,10 @@ export default () => {
     );
   }, [viewTaskPageSelector]);
 
+  useEffect(() => {
+    dispatch(axiosGetTaskListThunk(paramsSelector));
+  }, [paramsSelector]);
+
   return (
     <Table dataSource={taskBodyTable}>
       <Column

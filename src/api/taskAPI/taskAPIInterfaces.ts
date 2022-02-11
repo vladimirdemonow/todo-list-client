@@ -27,7 +27,7 @@ export interface ITaskListResponseBody {
 // PARAMS
 
 export interface ITaskListQueryParams {
-  filterBy?: "done" | "undone" | null;
+  filterBy?: "done" | "undone" | null | "";
   order?: "asc" | "desk";
   pp?: 5 | 20;
   page?: number;

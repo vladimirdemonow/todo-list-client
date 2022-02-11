@@ -3,7 +3,7 @@ import {
   TMethod,
   TRequestBody,
 } from "./../../api/taskAPI/taskAPIInterfaces";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   axiosGetTaskListRequest,
   axiosTaskRequest,
@@ -50,7 +50,11 @@ export const axiosGetTaskListThunk = createAsyncThunk(
 export const taskListSlice = createSlice({
   name: "taskList",
   initialState,
-  reducers: {},
+  reducers: {
+    setParams: (state, action: PayloadAction<ITaskListQueryParams>) => {
+      state.params = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(axiosTaskThunk.pending, (state) => {
@@ -79,6 +83,8 @@ export const taskListSlice = createSlice({
       });
   },
 });
+
+export const { setParams } = taskListSlice.actions;
 
 export const selectViewTaskPage = (state: RootState) =>
   state.taskList.viewTaskPage;

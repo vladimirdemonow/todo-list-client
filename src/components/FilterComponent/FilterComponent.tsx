@@ -4,6 +4,7 @@ import {
   axiosGetTaskListThunk,
   axiosTaskThunk,
   selectParams,
+  setParams,
 } from "../../features/slices/taskListSlice";
 
 export default () => {
@@ -14,27 +15,25 @@ export default () => {
     <Menu>
       <Menu.Item
         key="all"
-        onClick={() => dispatch(axiosGetTaskListThunk(paramsSelector))}
+        onClick={() => {
+          dispatch(setParams({ ...paramsSelector, filterBy: "" }));
+        }}
       >
         All
       </Menu.Item>
       <Menu.Item
         key="done"
-        onClick={() =>
-          dispatch(
-            axiosGetTaskListThunk({ ...paramsSelector, filterBy: "done" })
-          )
-        }
+        onClick={() => {
+          dispatch(setParams({ ...paramsSelector, filterBy: "done" }));
+        }}
       >
         Done
       </Menu.Item>
       <Menu.Item
         key="undone"
-        onClick={() =>
-          dispatch(
-            axiosGetTaskListThunk({ ...paramsSelector, filterBy: "undone" })
-          )
-        }
+        onClick={() => {
+          dispatch(setParams({ ...paramsSelector, filterBy: "undone" }));
+        }}
       >
         Undone
       </Menu.Item>
