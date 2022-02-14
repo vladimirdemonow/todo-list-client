@@ -19,7 +19,7 @@ export default () => {
           dispatch(setParams({ ...paramsSelector, filterBy: "" }));
         }}
       >
-        All
+        all
       </Menu.Item>
       <Menu.Item
         key="done"
@@ -27,7 +27,7 @@ export default () => {
           dispatch(setParams({ ...paramsSelector, filterBy: "done" }));
         }}
       >
-        Done
+        done
       </Menu.Item>
       <Menu.Item
         key="undone"
@@ -35,14 +35,16 @@ export default () => {
           dispatch(setParams({ ...paramsSelector, filterBy: "undone" }));
         }}
       >
-        Undone
+        undone
       </Menu.Item>
     </Menu>
   );
 
   return (
     <Dropdown overlay={menu} placement="topLeft" arrow>
-      <Button>Filter</Button>
+      <Button>
+        {paramsSelector.filterBy ? paramsSelector.filterBy : "all"}
+      </Button>
     </Dropdown>
   );
 };

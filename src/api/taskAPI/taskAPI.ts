@@ -13,6 +13,8 @@ const url = process.env.REACT_APP_TODO_LIST_API;
 const userId = process.env.REACT_APP_USER_ID;
 const endPoint = "/task/";
 
+// REQUEST ON TASK ENDPOINT
+
 export const axiosTaskRequest = async ({ method, data }: IAxiosTaskRequest) => {
   const uuid = method !== "post" ? "/" + data?.uuid : "";
 
@@ -34,5 +36,3 @@ export const axiosGetTaskListRequest = async (
     params,
   }).catch(({ response }: IErrorResponse) => console.log(response.status));
 };
-
-// : uuid ? data : { ...data, uuid: undefined }

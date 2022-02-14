@@ -89,20 +89,9 @@ export default () => {
         }}
       />
       <Column dataIndex="name" key="name" />
+      <Column align="right" dataIndex="updatedAt" key="updatedAt" />
       <Column
-        dataIndex="updatedAt"
-        key="updatedAt"
-        sortDirections={["descend"]}
-        sorter={() => {
-          dispatch(
-            setParams({
-              order: paramsSelector.order === "asc" ? "desk" : "asc",
-            })
-          );
-          return 0;
-        }}
-      />
-      <Column
+        align="center"
         dataIndex="delete"
         key="delete"
         render={({ taskBody }: TTaskBodyTableDelete) => {
