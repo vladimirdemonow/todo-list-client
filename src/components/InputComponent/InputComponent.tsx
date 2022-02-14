@@ -4,50 +4,48 @@ import { useAppDispatch } from "../../app/hooks";
 import { ITaskListState } from "../../features/slices/taskListInterface";
 import { axiosTaskThunk } from "../../features/slices/taskListSlice";
 import dayjs from "dayjs";
+import { useRef } from "react";
 const axios = require("axios");
 
 export default () => {
   const dispatch = useAppDispatch();
+  const inputRef = useRef<Input>(null);
+
+  const onInputTask = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Escape") {
+      inputRef.current?.setValue("");
+    }
+
+    if (event.key === "Enter") {
+      const currentDate = dayjs(Date.now()).format(
+        "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+      );
+
+      dispatch(
+        axiosTaskThunk({
+          method: "post",
+          data: {
+            name: event.currentTarget.value,
+            done: false,
+            createdAt: currentDate,
+            updatedAt: currentDate,
+          },
+        })
+      );
+      inputRef.current?.setValue("");
+    }
+  };
 
   return (
     <Input
-      placeholder="I want to..."
-      onKeyDownCapture={(event) => {
-        onInputTask(event, dispatch);
+      onBlur={(event) => {
+        event.target.value = "";
       }}
+      placeholder="I want to..."
+      onKeyDownCapture={onInputTask}
+      ref={inputRef}
       showCount
+      maxLength={100}
     />
   );
-};
-
-const onInputTask = (
-  event: React.KeyboardEvent<HTMLInputElement>,
-  dispatch: ThunkDispatch<
-    {
-      taskList: ITaskListState;
-    },
-    null,
-    AnyAction
-  >
-) => {
-  if (event.key === "Escape") {
-    event.currentTarget.value = "";
-  }
-
-  if (event.key === "Enter") {
-    const currentDate = dayjs(Date.now()).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
-
-    dispatch(
-      axiosTaskThunk({
-        method: "post",
-        data: {
-          name: event.currentTarget.value,
-          done: false,
-          createdAt: currentDate,
-          updatedAt: currentDate,
-        },
-      })
-    );
-    event.currentTarget.value = "";
-  }
 };
