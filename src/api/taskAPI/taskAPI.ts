@@ -14,8 +14,7 @@ const userId = process.env.REACT_APP_USER_ID;
 const endPoint = "/task/";
 
 export const axiosTaskRequest = async ({ method, data }: IAxiosTaskRequest) => {
-  const uuid =
-    method === "patch" || method === "delete" ? "/" + data?.uuid : "";
+  const uuid = method !== "post" ? "/" + data?.uuid : "";
 
   return axios({
     method,
@@ -35,3 +34,5 @@ export const axiosGetTaskListRequest = async (
     params,
   }).catch(({ response }: IErrorResponse) => console.log(response.status));
 };
+
+// : uuid ? data : { ...data, uuid: undefined }

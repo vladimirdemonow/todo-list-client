@@ -1,5 +1,5 @@
 export interface ITaskBody {
-  uuid: string;
+  uuid?: string;
   name: string;
   createdAt: string;
   updatedAt: string;

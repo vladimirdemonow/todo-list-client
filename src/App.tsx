@@ -8,10 +8,12 @@ import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 import { Layout } from "antd";
 import { Content, Footer, Header } from "antd/lib/layout/layout";
 import Sider from "antd/lib/layout/Sider";
+import InputComponent from "./components/InputComponent/InputComponent";
 
 function App() {
   return (
     <Layout>
+      <InputComponent />
       <FilterComponent />
 
       <TaskListComponent />

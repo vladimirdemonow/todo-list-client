@@ -50,7 +50,7 @@ export default () => {
     setTaskBodyTable(
       viewTaskPageSelector.map((element) => ({
         ...element,
-        key: element.uuid,
+        key: element.uuid ? element.uuid : "",
         check: {
           taskBody: element,
           done: element.done,
