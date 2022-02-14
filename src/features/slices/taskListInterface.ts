@@ -11,4 +11,5 @@ export interface ITaskListState {
   status: IStatus;
   params: ITaskListQueryParams;
   isToUpdateTaskPage: boolean;
+  count: number;
 }

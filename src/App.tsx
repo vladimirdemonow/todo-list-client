@@ -10,6 +10,7 @@ import { Content, Footer, Header } from "antd/lib/layout/layout";
 import Sider from "antd/lib/layout/Sider";
 import InputComponent from "./components/InputComponent/InputComponent";
 import SortComponent from "./components/SortComponent/SortComponent";
+import PageComponent from "./components/PageComponent/PageComponent";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         </Col>
       </Row>
       <TaskListComponent />
+      <PageComponent />
     </Layout>
   );
 }

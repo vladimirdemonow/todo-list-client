@@ -1,7 +1,7 @@
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
-import { Checkbox, Table } from "antd";
+import { Checkbox, Input, Table } from "antd";
 import Column from "antd/lib/table/Column";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ITaskBody } from "../../api/taskAPI/taskAPIInterfaces";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { ITaskListState } from "../../features/slices/taskListInterface";
@@ -59,6 +59,7 @@ export default () => {
         delete: {
           taskBody: element,
         },
+        name: element,
       }))
     );
   }, [viewTaskPageSelector]);
@@ -68,7 +69,7 @@ export default () => {
   }, [paramsSelector]);
 
   return (
-    <Table dataSource={taskBodyTable}>
+    <Table dataSource={taskBodyTable} pagination={false}>
       <Column
         dataIndex="check"
         key="check"
@@ -88,7 +89,40 @@ export default () => {
           );
         }}
       />
-      <Column dataIndex="name" key="name" />
+      <Column
+        dataIndex="name"
+        key="name"
+        render={(data: ITaskBody) => {
+          const inputRef = useRef<Input>(null);
+
+          const [currentText, setCurrentText] = useState(data.name);
+
+          return (
+            <Input
+              ref={inputRef}
+              defaultValue={currentText}
+              onBlur={(event) => {
+                inputRef.current?.setValue(currentText);
+              }}
+              onPressEnter={(event) => {
+                event.currentTarget.blur();
+
+                setCurrentText(event.currentTarget.value);
+                inputRef.current?.setValue(event.currentTarget.value);
+                dispatch(
+                  axiosTaskThunk({
+                    method: "patch",
+                    data: {
+                      ...data,
+                      name: event.currentTarget.value,
+                    },
+                  })
+                );
+              }}
+            />
+          );
+        }}
+      />
       <Column align="right" dataIndex="updatedAt" key="updatedAt" />
       <Column
         align="center"

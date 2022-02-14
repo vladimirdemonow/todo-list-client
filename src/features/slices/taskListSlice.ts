@@ -24,6 +24,7 @@ const initialState: ITaskListState = {
     page: 1,
   },
   isToUpdateTaskPage: false,
+  count: 0,
 };
 
 interface IAxiosTaskThunk {
@@ -52,7 +53,11 @@ export const taskListSlice = createSlice({
   initialState,
   reducers: {
     setParams: (state, action: PayloadAction<ITaskListQueryParams>) => {
-      state.params = action.payload;
+      const { filterBy, order, page } = action.payload;
+
+      if (filterBy) state.params.filterBy = filterBy;
+      if (order) state.params.order = order;
+      if (page) state.params.page = page;
     },
   },
   extraReducers: (builder) => {
@@ -72,9 +77,12 @@ export const taskListSlice = createSlice({
         state.status.getTaskListRequestStatus = "loading";
       })
       .addCase(axiosGetTaskListThunk.fulfilled, (state, action) => {
-        console.log(action.payload.tasks);
+        const { tasks, count } = action.payload;
+        console.log(action.payload);
 
-        state.viewTaskPage = action.payload.tasks;
+        state.viewTaskPage = tasks;
+        state.count = count;
+
         state.isToUpdateTaskPage = false;
         state.status.getTaskListRequestStatus = "idle";
       })
@@ -88,6 +96,8 @@ export const { setParams } = taskListSlice.actions;
 
 export const selectViewTaskPage = (state: RootState) =>
   state.taskList.viewTaskPage;
+
+export const selectCount = (state: RootState) => state.taskList.count;
 
 export const selectStatus = (state: RootState) => state.taskList.status;
 
