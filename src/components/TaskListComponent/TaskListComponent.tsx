@@ -12,6 +12,7 @@ import {
   selectParams,
   selectStatus,
   selectViewTaskPage,
+  setParams,
 } from "../../features/slices/taskListSlice";
 
 import { DeleteOutlined } from "@ant-design/icons";
@@ -88,7 +89,19 @@ export default () => {
         }}
       />
       <Column dataIndex="name" key="name" />
-      <Column dataIndex="updatedAt" key="updatedAt" />
+      <Column
+        dataIndex="updatedAt"
+        key="updatedAt"
+        sortDirections={["descend"]}
+        sorter={() => {
+          dispatch(
+            setParams({
+              order: paramsSelector.order === "asc" ? "desk" : "asc",
+            })
+          );
+          return 0;
+        }}
+      />
       <Column
         dataIndex="delete"
         key="delete"

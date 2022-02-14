@@ -1,11 +1,8 @@
-import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { Input } from "antd";
 import { useAppDispatch } from "../../app/hooks";
-import { ITaskListState } from "../../features/slices/taskListInterface";
 import { axiosTaskThunk } from "../../features/slices/taskListSlice";
 import dayjs from "dayjs";
 import { useRef } from "react";
-const axios = require("axios");
 
 export default () => {
   const dispatch = useAppDispatch();
